@@ -46,9 +46,4 @@ sudo chmod 600 /home/dev/.ssh/authorized_keys
 
 # bash config
 # uncomment for vim motions in bash
-echo "set -o vi" >> /home/dev/.bash_profile 
-
-# Assignment 1 dir
-sudo ln -sf /vagrant /home/dev/a1 
-
-# TODO: A2, A3, A4
+#echo "set -o vi" >> /home/dev/.bash_profile 

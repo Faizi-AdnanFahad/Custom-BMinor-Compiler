@@ -2,3 +2,8 @@
 *.o
 *.exe
 *.vim
+*.swp
+scanner.c
+bminor
+*.out
+

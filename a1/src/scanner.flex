@@ -1,6 +1,6 @@
 %{
-#include "token.h"
-#include "helper.h"
+#include "../include/token.h"
+#include "../include/helper.h"
 %}
 
 %option nounput
