@@ -47,7 +47,7 @@ sudo chmod 600 /home/dev/.ssh/authorized_keys
 
 # bash config
 # uncomment for vim motions in bash
-echo "set -o vi" >> /home/dev/.bash_profile 
+#echo "set -o vi" >> /home/dev/.bash_profile 
 echo "export PATH=/home/dev/a1/bin:$PATH" >> /home/dev/.bash_profile 
 #echo "export PATH=/home/dev/a2/bin:$PATH" >> /home/dev/.bash_profile 
 #echo "export PATH=/home/dev/a3/bin:$PATH" >> /home/dev/.bash_profile 
