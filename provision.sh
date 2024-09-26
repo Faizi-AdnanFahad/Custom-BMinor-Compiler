@@ -16,6 +16,7 @@ sudo apt-get update -y --force-yes
 echo "install gcc + build tools"
 sudo apt-get -y install build-essential
 sudo apt-get -y install flex
+sudo apt-get -y install dos2unix
 
 # Create user account
 # Default shell bash
@@ -46,4 +47,8 @@ sudo chmod 600 /home/dev/.ssh/authorized_keys
 
 # bash config
 # uncomment for vim motions in bash
-#echo "set -o vi" >> /home/dev/.bash_profile 
+echo "set -o vi" >> /home/dev/.bash_profile 
+echo "export PATH=/home/dev/a1/bin:$PATH" >> /home/dev/.bash_profile 
+#echo "export PATH=/home/dev/a2/bin:$PATH" >> /home/dev/.bash_profile 
+#echo "export PATH=/home/dev/a3/bin:$PATH" >> /home/dev/.bash_profile 
+#echo "export PATH=/home/dev/a4/bin:$PATH" >> /home/dev/.bash_profile 
