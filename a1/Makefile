@@ -2,20 +2,21 @@
 # 2024-09-22
 # Lab 1 Makefile modified group 10s directory structure
 
-DIST  =bin
-INC   =include
-SRC   =src
-
+DIST=bin
+SRC=src
 OBJ_FILES=$(addprefix $(DIST)/, \
 	 main.o \
 	 scanner.o \
-	 helper.o)
+	 helper.o \
+	 constants.o)
+
+INC=include
 
 $(DIST)/bminor: $(OBJ_FILES)
 	gcc $^ -o $(DIST)/bminor
 
 $(DIST)/%.o: $(SRC)/%.c $(INC)/*.h
-	gcc -Iinclude -Wall -g -c $< -o $@
+	gcc -Wall -g -c $< -o $@
 
 $(SRC)/scanner.c: $(SRC)/scanner.flex
 	flex -o $(SRC)/scanner.c $(SRC)/scanner.flex
