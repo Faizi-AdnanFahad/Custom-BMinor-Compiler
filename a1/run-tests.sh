@@ -24,6 +24,8 @@ TESTDIR=$3
 
 LINES=-------------------------------------------
 
+echo $($COMPILER $MODE $testfile)
+
 for testfile in ${TESTDIR}/good*.bminor
 do
 	if ${COMPILER} ${MODE} $testfile > $testfile.out 2>&1

@@ -12,6 +12,7 @@ extern int yylex();  // Scans text, returns 0 on EOF.
 extern int yylineno; // Line number of the last scanned text.
 extern char *yytext; // Actual text scanned
 
+extern int EXIT_CODE;
 void run_scan(const char *filename);
 
 int main(int argc, char *argv[]) {
@@ -29,16 +30,40 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    return 0;
+    return EXIT_CODE;
+}
+
+void print_comment(int* token) {
+  // Print the begin symbol
+  printf("TOKEN_COMMENT: %s", yytext);
+  // goto next after printing
+  *token = yylex();
+  while(*token != TOKEN_COMMENT_END) {
+    // print till the ending comment token
+    printf("%s", yytext);
+    // next token
+    *token = yylex();
+  }
+  // print end symbol
+  printf("%s", yytext);
 }
 
 void run_scan(const char *filename) {
-    printf("Open the file: %s for reading\n", filename);
+    // Open the file for reading
     yyin = fopen(filename, "r");
 
     // while not EOF
     int token = -1;
     while((token = yylex()) != TOKEN_EOF) {
-      printf("%s: %s\n", TOKEN_LOOKUP[token], yytext);
+      if(token == TOKEN_ERROR) {
+        EXIT_CODE = 1;
+        fprintf(stderr, "token code: %d, %s: %s\n", token, TOKEN_LOOKUP[token], yytext);
+      } else {
+          fprintf(stdout, "%s: %s\n", TOKEN_LOOKUP[token], yytext);
+        }
     }
+
+    fclose(yyin);
+    
+    if(EXIT_CODE == 1) exit(1);
 }

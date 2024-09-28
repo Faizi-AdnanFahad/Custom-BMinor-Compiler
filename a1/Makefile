@@ -28,3 +28,5 @@ clean:
 # lexer tests
 test-scanner:
 	cd tests/scanner && ./run_all_tests.sh
+	cat tests/scanner/good1.bminor
+	cat tests/scanner/output/good1.bminor.out
