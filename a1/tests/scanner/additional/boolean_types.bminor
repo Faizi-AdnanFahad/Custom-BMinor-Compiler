@@ -1,0 +1,13 @@
+b:boolean;
+b:boolean;
+b: boolean;
+b:boolean ;
+b: boolean ;
+b : boolean ;
+b:boolean ;
+b : boolean  ;
+b : boolean;
+b      :     boolean ;
+b                : boolean    ;
+b                : boolean    = false;
+b                : boolean   = true;

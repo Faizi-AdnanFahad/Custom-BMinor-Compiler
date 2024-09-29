@@ -1,0 +1,16 @@
+testVar1:integer;
+testVar1: integer;
+testVar2:integer ;
+testVar1:      integer;
+testVar1:integer     ;
+testVar1:      integer     ;
+_testVar1: integer;
+tes_3435tVar1: integer;
+testVar1:integer=0;
+testVar1: integer=30;
+testVar2:integer =234;
+testVar1:      integer=3434;
+testVar1:integer     = 34355;
+testVar1:      integer    = 54;
+_testVar1: integer = 54545 ;
+tes_3435tVar1: integer= 45;
