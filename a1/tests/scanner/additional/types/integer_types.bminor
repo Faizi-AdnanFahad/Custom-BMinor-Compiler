@@ -1,3 +1,4 @@
+// additional testings to be done on the requirement `boolean can take the literal values true or false` once its implemented.
 testVar1:integer;
 testVar1: integer;
 testVar2:integer ;
