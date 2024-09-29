@@ -1,0 +1,10 @@
+// additional testings to be done on the requirement `char is a single 8-bit ASCII 
+// character. and Both char and string may contain the following backslash codes.
+// n indicates a linefeed (ASCII value 10), 0 indicates a null (ASCII value zero), 
+// and a backslash followed by anything else indicates exactly the following 
+// character. Both strings and identifiers may be up to 256 characters long.` once its implemented.
+asdf:char;
+asdf: char;
+aasdf:char='a';
+asdfasdf: char =      'a';
+asdfasdf        : char =      'a';

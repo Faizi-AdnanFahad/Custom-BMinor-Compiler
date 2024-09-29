@@ -1,0 +1,17 @@
+// this should be ignored
+/* this should be ignored */
+// //
+/*
+multi-line comments
+*/
+
+this
+should
+not
+be
+ignored
+>=
+array
+if
+//
+/**/
