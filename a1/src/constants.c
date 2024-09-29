@@ -2,7 +2,10 @@ int EXIT_CODE = 0;
 
 const char* TOKEN_LOOKUP[] = {
      "TOKEN_EOF", // enum index start 0
-     "TOKEN_DIGIT", // enum index start 0
+     "TOKEN_ERROR", 
+     "TOKEN_DIGIT", 
+     "TOKEN_INTEGER_DECLARATION",  
+     "TOKEN_INTEGER_ASSIGNMENT",  
      "TOKEN_CHARACTER_LITERAL",  
      "TOKEN_COMMENT_BEGIN",  
      "TOKEN_COMMENT_END",  
@@ -22,6 +25,7 @@ const char* TOKEN_LOOKUP[] = {
      "TOKEN_TRUE",   
      "TOKEN_VOID",   
      "TOKEN_WHILE",  
-     "TOKEN_IDENTIFIER", // enum index start 0
-     "TOKEN_ERROR", // enum index start 0
+     "TOKEN_IDENTIFIER", 
+     "TOKEN_ARRAY_SUBSCRIPT",
+     "TOKEN_FUNCTION_CALL"
 };

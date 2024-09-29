@@ -3,7 +3,10 @@
 
 typedef enum {
      TOKEN_EOF=0, // enum index start 0
+     TOKEN_ERROR,
      TOKEN_DIGIT, // enum index start 0
+     TOKEN_INTEGER_DECLARATION,  
+     TOKEN_INTEGER_ASSIGNMENT,  
      TOKEN_CHARACTER_LITERAL,  
      TOKEN_COMMENT_BEGIN,  
      TOKEN_COMMENT_END,  
@@ -24,7 +27,8 @@ typedef enum {
      TOKEN_VOID,    
      TOKEN_WHILE,   
      TOKEN_IDENTIFIER,
-     TOKEN_ERROR
+     TOKEN_ARRAY_SUBSCRIPT,
+     TOKEN_FUNCTION_CALL
 } token_t;
 
 // defined in constants.c, 1-1 mapping with token_t

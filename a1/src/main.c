@@ -59,7 +59,7 @@ void run_scan(const char *filename) {
         EXIT_CODE = 1;
         fprintf(stderr, "token code: %d, %s: %s\n", token, TOKEN_LOOKUP[token], yytext);
       } else {
-          fprintf(stdout, "%s: %s\n", TOKEN_LOOKUP[token], yytext);
+         fprintf(stdout, "%s: %s\n", TOKEN_LOOKUP[token], yytext);
         }
     }
 
