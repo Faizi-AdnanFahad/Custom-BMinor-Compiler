@@ -33,20 +33,20 @@ int main(int argc, char *argv[]) {
     return EXIT_CODE;
 }
 
-void print_comment(int* token) {
-  // Print the begin symbol
-  printf("TOKEN_COMMENT: %s", yytext);
-  // goto next after printing
-  *token = yylex();
-  while(*token != TOKEN_COMMENT_END) {
-    // print till the ending comment token
-    printf("%s", yytext);
-    // next token
-    *token = yylex();
-  }
-  // print end symbol
-  printf("%s", yytext);
-}
+// void print_comment(int* token) {
+//   // Print the begin symbol
+//   printf("TOKEN_COMMENT: %s", yytext);
+//   // goto next after printing
+//   *token = yylex();
+//   while(*token != TOKEN_COMMENT_END) {
+//     // print till the ending comment token
+//     printf("%s", yytext);
+//     // next token
+//     *token = yylex();
+//   }
+//   // print end symbol
+//   printf("%s", yytext);
+// }
 
 void run_scan(const char *filename) {
     // Open the file for reading
@@ -57,10 +57,8 @@ void run_scan(const char *filename) {
     while((token = yylex()) != TOKEN_EOF) {
       if(token == TOKEN_ERROR) {
         EXIT_CODE = 1;
-        fprintf(stderr, "token code: %d, %s: %s\n", token, TOKEN_LOOKUP[token], yytext);
-      } else {
-          fprintf(stdout, "%s: %s\n", TOKEN_LOOKUP[token], yytext);
-        }
+      }
+      fprintf(stderr, "token code: %d, %s: %s\n", token, TOKEN_LOOKUP[token], yytext);
     }
 
     fclose(yyin);
