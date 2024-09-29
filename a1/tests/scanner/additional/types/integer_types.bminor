@@ -15,3 +15,8 @@ testVar1:integer     = 34355;
 testVar1:      integer    = 54;
 _testVar1: integer = 54545 ;
 tes_3435tVar1: integer= 45;
+
+/* assignment with signs */
+testVar1:integer= +54;
+testVar1:integer= -54;
+testVar1:integer=           -54   ;

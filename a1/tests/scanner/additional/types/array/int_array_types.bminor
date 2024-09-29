@@ -23,3 +23,14 @@ a       : array [1] integer={3,      32     };
 a       : array [1] integer={       3,      32};
 a       : array [1] integer={3          ,      32};
 a       : array [1] integer={       3       ,      32         }        ;
+
+/* integer arrays with signs */
+a: array [1] integer={+3};
+a: array [1] integer={+3,-4};
+a: array [1] integer={+3, -4};
+a: array [1] integer={-3, -4};
+a: array [1] integer={-3, +4};
+a: array [1] integer={+3, +4};
+a: array [1] integer={+3, +4, +2};
+a: array [1] integer={+3, +4, 3};
+a: array [1] integer={+3, +4, 3, 1};
