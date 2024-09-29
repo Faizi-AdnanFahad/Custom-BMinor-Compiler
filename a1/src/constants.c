@@ -32,5 +32,36 @@ const char* TOKEN_LOOKUP[] = {
      "TOKEN_ERROR",
 };
 
+const char ESCAPE_BYTE[] = {
+     '\b',
+     '\a',
+     '\e',
+     '\f',	
+     '\n',	
+     '\r',
+     '\t',	
+     '\v',
+     '\\',	
+     '\'',
+     '\"',	
+     '\?'
+};
+
+// first 12 escape code
+const char ESCAPE_CODE[] = {
+     'b',
+     'a',
+     'e',
+     'f',	
+     'n',	
+     'r',
+     't',	
+     'v',
+     '\\',	
+     '\'',
+     '"',	
+     '?'
+};
+
 // ERROR MESSAGE CONSTANTS
 const char* ERRORMSG_SCANNER_UNEXPECTED_CHAR = "scan error: Unexpected character '%c' at line %d";
