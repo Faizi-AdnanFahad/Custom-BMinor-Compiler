@@ -7,3 +7,4 @@ asdf:char;
 asdf: char;
 aasdf:char='a';
 asdfasdf: char =      'a';
+asdfasdf        : char =      'a';
