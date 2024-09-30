@@ -9,7 +9,7 @@ OBJ_FILES=$(addprefix $(DIST)/, \
 	 scanner.o \
 	 helper.o \
 	 constants.o \
-	 err_messages.o)
+	 messages.o)
 
 INC=include
 
