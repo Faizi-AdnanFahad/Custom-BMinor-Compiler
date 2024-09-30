@@ -18,3 +18,4 @@ asdf: string = "hello\n";
 asdf: string = "";
 asdf: string = "         ";
 asdf: string = "\n";
+asdf: string = "\t asdfasdf";

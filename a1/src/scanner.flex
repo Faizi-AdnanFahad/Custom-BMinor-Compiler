@@ -19,7 +19,7 @@ INTEGER_LITERAL {DIGIT}+
 SIGNED_INTEGER_LITERAL (\+|\-)?{DIGIT}+
 BOOLEAN_LITERAL (true|false)
 CHARACTER_LITERAL ("‘"|"'"|‘)([\x00-\xFF]|{ESCAPE})("’"|"'"|’)
-STRING_LITERAL \"([^"\\]*(\\[ntr\"\\])*)*\"
+STRING_LITERAL \"([^"]*{ESCAPE}*)*\"
 
 INTEGER_TYPE integer
 BOOLEAN_TYPE boolean

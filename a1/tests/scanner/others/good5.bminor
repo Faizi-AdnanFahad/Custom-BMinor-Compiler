@@ -12,3 +12,5 @@
 "asdf    "
 "asdf    \n"
 "\tWOW"
+"\t \n"
+"\t \n \0"
