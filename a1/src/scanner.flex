@@ -75,6 +75,31 @@ while    { return TOKEN_WHILE;    }
 
 
 ">=" { return TOKEN_GE; }
+"<=" { return TOKEN_LE; }
+"==" { return TOKEN_EQ; }
+"!=" { return TOKEN_NEQ; }
+"<"  { return TOKEN_GT; }
+">"  { return TOKEN_LT; }
+"%"  { return TOKEN_MOD; }
+"--"  { return TOKEN_DECR; }
+"++"  { return TOKEN_INCR; }
+
+"+"  { return TOKEN_ADD; }
+"-"  { return TOKEN_SUB; }
+"*"  { return TOKEN_MUL; }
+"/"  { return TOKEN_DIV; }
+"^"  { return TOKEN_EXP; }
+"="  { return TOKEN_ASSIGNMENT; }
+
+"("  { return TOKEN_OPEN_ROUND_BRACE; }
+")"  { return TOKEN_CLOSE_ROUND_BRACE; }
+"{"  { return TOKEN_OPEN_CURLY_BRACE; }
+"}"  { return TOKEN_CLOSE_CURLY_BRACE; }
+"["  { return TOKEN_OPEN_SQUARE_BRACE; }
+"]"  { return TOKEN_CLOSE_SQUARE_BRACE; }
+
+","  { return TOKEN_COMMA; }
+":"  { return TOKEN_TYPE_ASSIGNMENT; }
 
 {SIGNED_INTEGER_LITERAL} { return TOKEN_DIGIT; }
 {CHARACTER_LITERAL} { process_char_literal(); return TOKEN_CHARACTER_LITERAL; }
