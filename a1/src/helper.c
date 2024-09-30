@@ -2,12 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 #include "../include/helper.h"
+#include "constants.h"
 
-/* You may use this file to add any helper functions you need. */
-
-extern char *yytext; // Actual text scanned
-extern char ESCAPE_CODE[];
-extern char ESCAPE_BYTE[]; 
 
 void process_string_literal() {
   int len = strlen(yytext);

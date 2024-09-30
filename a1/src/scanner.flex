@@ -13,12 +13,12 @@ DIGIT  [0-9]
 LETTER [a-zA-Z]
 WHITESPACE [ \t\n\r]
 ESCAPE (\\\a|\\\b|\\\f|\\\n|\\\r|\\\v|\\\|\\\'|\\\"|\\\?)
-IDENTIFIER ([A-z]|_)({LETTER}|{DIGIT}|_)*
+IDENTIFIER ({LETTER}|_)({LETTER}|{DIGIT}|_)*
 
 INTEGER_LITERAL {DIGIT}+
 SIGNED_INTEGER_LITERAL (\+|\-)?{DIGIT}+
 BOOLEAN_LITERAL (true|false)
-CHARACTER_LITERAL \'\\?[\x0000-\xffff]\'
+CHARACTER_LITERAL "'"\\?[\x0000-\xffff]"'"
 STRING_LITERAL \"([^"]*{ESCAPE}*)*\"
 
 INTEGER_TYPE integer
@@ -34,7 +34,7 @@ ARRAY_TYPE array
   "/*" BEGIN(CPP_COMMENT);
 }
 <C_COMMENT>{
-  "\n" yylineno++; BEGIN(INITIAL);
+  "\n" BEGIN(INITIAL);
   [^\n]+ // eat comment
 }
 <CPP_COMMENT>{
@@ -84,11 +84,13 @@ while    { return TOKEN_WHILE;    }
 "}"  { return TOKEN_CLOSE_CURLY_BRACE; }
 "["  { return TOKEN_OPEN_SQUARE_BRACE; }
 "]"  { return TOKEN_CLOSE_SQUARE_BRACE; }
+"\""  { return TOKEN_DOUBLE_QOUTE; }
+"'"  { return TOKEN_SINGLE_QOUTE; }
 
 ","  { return TOKEN_COMMA; }
 ":"  { return TOKEN_TYPE_ASSIGNMENT; }
-"&&"  { return TOKEN_BITWISE_AND; }
-"||"  { return TOKEN_BITWISE_OR; }
+"&&"  { return TOKEN_LOGICAL_AND; }
+"||"  { return TOKEN_LOGICAL_OR; }
 
 {SIGNED_INTEGER_LITERAL} { return TOKEN_DIGIT; }
 {CHARACTER_LITERAL} { process_char_literal(); return TOKEN_CHARACTER_LITERAL; }

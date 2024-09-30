@@ -1,7 +1,6 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
-void run_scan(const char *filename);
 
 typedef enum
 {
@@ -57,12 +56,12 @@ typedef enum
      TOKEN_CLOSE_SQUARE_BRACE,
      TOKEN_COMMA,
      TOKEN_TYPE_ASSIGNMENT,
-     TOKEN_BITWISE_AND,
-     TOKEN_BITWISE_OR,
+     TOKEN_LOGICAL_AND,
+     TOKEN_LOGICAL_OR,
+     TOKEN_SINGLE_QOUTE,
+     TOKEN_DOUBLE_QOUTE,
      TOKEN_ERROR
 } token_t;
 
-// defined in constants.c, 1-1 mapping with token_t
-extern const char* TOKEN_LOOKUP[];
-
+void run_scan(const char *filename);
 #endif
