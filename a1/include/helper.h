@@ -10,7 +10,4 @@ void special_char_to_byte(char* str);
 void shift_left(char* str, int at);
 void strip_tail(char* str);
 void strip_qoutes(char* str);
-
-// ERROR MSG CONSTANTS
-extern const char* ERRORMSG_SCANNER_UNEXPECTED_CHAR;
 #endif

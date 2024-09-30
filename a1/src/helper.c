@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include "../include/helper.h"
 
@@ -38,6 +39,8 @@ void special_char_to_byte(char* str) {
           str[i] = ESCAPE_BYTE[j];
           // shift left from the right side
           shift_left(str, i + 1);
+          // recalculate length>?
+          len = strlen(str);
         }
       }
     }
