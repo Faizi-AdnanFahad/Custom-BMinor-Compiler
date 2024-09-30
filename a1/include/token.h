@@ -57,6 +57,8 @@ typedef enum
      TOKEN_CLOSE_SQUARE_BRACE,
      TOKEN_COMMA,
      TOKEN_TYPE_ASSIGNMENT,
+     TOKEN_BITWISE_AND,
+     TOKEN_BITWISE_OR,
      TOKEN_ERROR
 } token_t;
 

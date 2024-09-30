@@ -100,6 +100,8 @@ while    { return TOKEN_WHILE;    }
 
 ","  { return TOKEN_COMMA; }
 ":"  { return TOKEN_TYPE_ASSIGNMENT; }
+"&&"  { return TOKEN_BITWISE_AND; }
+"||"  { return TOKEN_BITWISE_OR; }
 
 {SIGNED_INTEGER_LITERAL} { return TOKEN_DIGIT; }
 {CHARACTER_LITERAL} { process_char_literal(); return TOKEN_CHARACTER_LITERAL; }
