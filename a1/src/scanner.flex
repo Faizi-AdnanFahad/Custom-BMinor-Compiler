@@ -10,7 +10,7 @@
 %x CPP_COMMENT
 
 DIGIT  [0-9]
-LETTER [A-z]
+LETTER [a-zA-Z]
 WHITESPACE [ \t\n\r]
 ESCAPE \\[abfnrtv0\\\'\"\?]
 IDENTIFIER ([A-z]|_)({LETTER}|{DIGIT}|_)*
@@ -19,7 +19,7 @@ INTEGER_LITERAL {DIGIT}+
 SIGNED_INTEGER_LITERAL (\+|\-)?{DIGIT}+
 BOOLEAN_LITERAL (true|false)
 CHARACTER_LITERAL ("‘"|"'"|‘)([\x00-\xFF]|{ESCAPE})("’"|"'"|’)
-STRING_LITERAL \"({LETTER}|{WHITESPACE}|\\n)*\"
+STRING_LITERAL \"([^"\\]*(\\[ntr\"\\])*)*\"
 
 INTEGER_TYPE integer
 BOOLEAN_TYPE boolean
