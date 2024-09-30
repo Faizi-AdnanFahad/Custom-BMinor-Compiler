@@ -1,7 +1,6 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../include/token.h"
+#include "../include/helper.h"
 
 /* You may use this file to add any helper functions you need. */
 
@@ -14,7 +13,7 @@ void process_string_literal() {
   char* copy = malloc(len * sizeof(char));
   strcpy(copy, yytext);
   strip_qoutes(copy);
-  specialCharToByte(copy);
+  special_char_to_byte(copy);
   strcpy(yytext, copy);
   free(copy);
 }
@@ -28,7 +27,7 @@ void process_char_literal() {
   free(copy);
 }
 // if we find a // in the string followed by an escape code, let's replace with the byte character
-void specialCharToByte(char* str) {
+void special_char_to_byte(char* str) {
   int len = strlen(str);
   for(int i = 0; i < len; ++i) {
     if(i + 1 < len) {

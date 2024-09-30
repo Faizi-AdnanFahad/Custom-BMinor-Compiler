@@ -11,7 +11,6 @@ extern FILE *yyin;   // Input file for the scanner to use.
 extern int yylex();  // Scans text, returns 0 on EOF.
 extern int yylineno; // Line number of the last scanned text.
 extern char *yytext; // Actual text scanned
-extern char string_clean; // Actual text scanned
 
 extern int EXIT_CODE;
 

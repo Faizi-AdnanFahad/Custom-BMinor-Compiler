@@ -8,15 +8,16 @@ OBJ_FILES=$(addprefix $(DIST)/, \
 	 main.o \
 	 scanner.o \
 	 helper.o \
-	 constants.o)
+	 constants.o \
+	 err_messages.o)
 
 INC=include
 
 $(DIST)/bminor: $(OBJ_FILES)
-	gcc $^ -o $(DIST)/bminor
+	gcc -Iinclude $^ -o $(DIST)/bminor
 
 $(DIST)/%.o: $(SRC)/%.c $(INC)/*.h
-	gcc -Wall -g -c $< -o $@
+	gcc -Iinclude -Wall -g -c $< -o $@
 
 $(SRC)/scanner.c: $(SRC)/scanner.flex
 	flex -o $(SRC)/scanner.c $(SRC)/scanner.flex
@@ -28,5 +29,3 @@ clean:
 # lexer tests
 test-scanner:
 	cd tests/scanner && ./run_all_tests.sh
-	cat tests/scanner/good1.bminor
-	cat tests/scanner/output/good1.bminor.out
