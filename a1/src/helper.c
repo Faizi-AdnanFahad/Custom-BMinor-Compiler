@@ -9,19 +9,27 @@ extern char *yytext; // Actual text scanned
 extern char ESCAPE_CODE[];
 extern char ESCAPE_BYTE[]; 
 
-void process_string() {
+void process_string_literal() {
   int len = strlen(yytext);
   char* copy = malloc(len * sizeof(char));
   strcpy(copy, yytext);
   strip_qoutes(copy);
   specialCharToByte(copy);
   strcpy(yytext, copy);
+  free(copy);
 }
 
+void process_char_literal() {
+  int len = strlen(yytext);
+  char* copy = malloc(len * sizeof(char));
+  strcpy(copy, yytext);
+  strip_qoutes(copy);
+  strcpy(yytext, copy);
+  free(copy);
+}
 // if we find a // in the string followed by an escape code, let's replace with the byte character
 void specialCharToByte(char* str) {
   int len = strlen(str);
-  int shift_pos = -1;
   for(int i = 0; i < len; ++i) {
     if(i + 1 < len) {
       for(int j = 0; j < 11; ++j) {
@@ -29,7 +37,7 @@ void specialCharToByte(char* str) {
         if(str[i] == '\\' && str[i + 1] == code)  {
           // replace the slash with the newline byte
           str[i] = ESCAPE_BYTE[j];
-          // shift on the right player
+          // shift left from the right side
           shift_left(str, i + 1);
         }
       }

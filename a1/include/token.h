@@ -1,6 +1,8 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
+void run_scan(const char *filename);
+
 typedef enum
 {
      TOKEN_EOF = 0, // enum index start 0

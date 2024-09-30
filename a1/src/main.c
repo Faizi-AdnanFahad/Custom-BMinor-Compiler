@@ -11,9 +11,9 @@ extern FILE *yyin;   // Input file for the scanner to use.
 extern int yylex();  // Scans text, returns 0 on EOF.
 extern int yylineno; // Line number of the last scanned text.
 extern char *yytext; // Actual text scanned
+extern char string_clean; // Actual text scanned
 
 extern int EXIT_CODE;
-void run_scan(const char *filename);
 
 int main(int argc, char *argv[]) {
     const char *option = argv[1];
@@ -42,7 +42,7 @@ void run_scan(const char *filename) {
     while((token = yylex()) != TOKEN_EOF) {
       if(token == TOKEN_ERROR) {
         EXIT_CODE = 1;
-        fprintf(stderr, "TOKEN_CODE: %d, %s: %s\n", token, TOKEN_LOOKUP[token], yytext);
+        fprintf(stderr, ERRORMSG_SCANNER_UNEXPECTED_CHAR, yytext, yylineno);
       } else {
          fprintf(stdout, "%s: %s\n", TOKEN_LOOKUP[token], yytext);
         }

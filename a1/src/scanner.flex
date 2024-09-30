@@ -46,12 +46,13 @@ ARRAY_STRING_ASSIGNMENT ={WHITESPACE}*\{{WHITESPACE}*({STRING_LITERAL}({WHITESPA
   "/*" BEGIN(CPP_COMMENT);
 }
 <C_COMMENT>{
-  "\n" BEGIN(INITIAL);
+  "\n" yylineno++; BEGIN(INITIAL);
   [^\n]+ // eat comment
 }
 <CPP_COMMENT>{
   [^\*]+ // eat comment
   "*"  
+  "\n" yylineno++; 
   "*/" BEGIN(INITIAL);
 }
 
@@ -76,9 +77,9 @@ while    { return TOKEN_WHILE;    }
 ">=" { return TOKEN_GE; }
 
 {SIGNED_INTEGER_LITERAL} { return TOKEN_DIGIT; }
-{CHARACTER_LITERAL} { return TOKEN_CHARACTER_LITERAL; }
+{CHARACTER_LITERAL} { process_char_literal(); return TOKEN_CHARACTER_LITERAL; }
 
-{STRING_LITERAL} { process_string(); return TOKEN_STRING_LITERAL; }
+{STRING_LITERAL} { process_string_literal(); return TOKEN_STRING_LITERAL; }
 {IDENTIFIER} { return TOKEN_IDENTIFIER; }
 
 {IDENTIFIER}{WHITESPACE}*:{WHITESPACE}*{INTEGER_TYPE}{WHITESPACE}*({INTEGER_ASSIGNMENT})?{WHITESPACE}*; {

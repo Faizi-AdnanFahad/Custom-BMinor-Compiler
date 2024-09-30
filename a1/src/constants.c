@@ -67,5 +67,3 @@ const char ESCAPE_CODE[] = {
      '?'
 };
 
-// ERROR MESSAGE CONSTANTS
-const char* ERRORMSG_SCANNER_UNEXPECTED_CHAR = "scan error: Unexpected character '%c' at line %d";
