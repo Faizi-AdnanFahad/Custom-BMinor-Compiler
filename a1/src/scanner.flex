@@ -26,7 +26,7 @@ BOOLEAN_TYPE boolean
 CHARACTER_TYPE char
 STRING_TYPE string
 ARRAY_TYPE array
-        
+
 %%
 {WHITESPACE} {}
 <INITIAL>{
@@ -35,11 +35,11 @@ ARRAY_TYPE array
 }
 <C_COMMENT>{
   "\n" BEGIN(INITIAL);
-  [^\n]+ // eat comment
+[^\n]+ // eat comment
 }
 <CPP_COMMENT>{
-  [^\*]+ // eat comment
-  "*"  
+[^\*]+ // eat comment
+"*"
   "\n" yylineno++; 
   "*/" BEGIN(INITIAL);
 }
@@ -65,8 +65,8 @@ while    { return TOKEN_WHILE;    }
 "<=" { return TOKEN_LE; }
 "==" { return TOKEN_EQ; }
 "!=" { return TOKEN_NEQ; }
-"<"  { return TOKEN_GT; }
-">"  { return TOKEN_LT; }
+"<"  { return TOKEN_LT; }
+">"  { return TOKEN_GT; }
 "%"  { return TOKEN_MOD; }
 "--"  { return TOKEN_DECR; }
 "++"  { return TOKEN_INCR; }
@@ -92,11 +92,56 @@ while    { return TOKEN_WHILE;    }
 "&&"  { return TOKEN_LOGICAL_AND; }
 "||"  { return TOKEN_LOGICAL_OR; }
 
-{SIGNED_INTEGER_LITERAL} { return TOKEN_DIGIT; }
-{CHARACTER_LITERAL} { process_char_literal(); return TOKEN_CHARACTER_LITERAL; }
+{SIGNED_INTEGER_LITERAL} {
+  const char *number = yytext;
 
-{STRING_LITERAL} { process_string_literal(); return TOKEN_STRING_LITERAL; }
-{IDENTIFIER} { return TOKEN_IDENTIFIER; }
+  if (number[0] == '+' || number[0] == '-') {
+    number++;  // Move the pointer to skip the '+' or '-' sign
+  }
+
+  // Check if the number exceeds the maximum length for a 64-bit integer
+  // 9223372036854775807 is the maximum 64-bit signed integer (19 digits)
+  if (strlen(number) > 19) {
+    return TOKEN_ERROR;  // The number is too large
+  }
+
+  long long value = strtoll(yytext, NULL, 10);  // Parse with sign included
+
+  if (value > INT64_MAX || value < INT64_MIN) {
+    return TOKEN_ERROR;
+  }
+
+  return TOKEN_DIGIT;
+}
+
+{CHARACTER_LITERAL} {
+  if (yytext[1] < 0 || yytext[1] > 255) {
+    return TOKEN_ERROR;
+  }
+  return TOKEN_CHARACTER_LITERAL;
+  
+  process_char_literal(); 
+  
+  return TOKEN_CHARACTER_LITERAL; 
+}
+
+{STRING_LITERAL} {
+  if (strlen(yytext) > 256) {
+    return TOKEN_ERROR;
+  } 
+  
+  process_string_literal();
+  
+  return TOKEN_STRING_LITERAL; 
+}
+
+{IDENTIFIER} {
+  if (strlen(yytext) > 256) {
+    return TOKEN_ERROR;
+}
+
+return TOKEN_IDENTIFIER     ;
+}
 
 .                                      { return TOKEN_ERROR; }
 %%

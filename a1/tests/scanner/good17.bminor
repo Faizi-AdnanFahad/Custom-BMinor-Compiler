@@ -1,0 +1,5 @@
+123
+-123
+9223372036854775807 // max 64-bit signed integer
+-9223372036854775808 // min 64-bit signed integer
+0
