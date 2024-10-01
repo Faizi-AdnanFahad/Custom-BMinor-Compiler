@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
 void run_scan(const char *filename) {
     // Open the file for reading
     yyin = fopen(filename, "r");
-
+    
     // while not EOF
     int token = -1;
     while((token = yylex()) != TOKEN_EOF) {
@@ -33,7 +33,12 @@ void run_scan(const char *filename) {
         EXIT_CODE = 1;
         fprintf(stderr, ERRORMSG_SCANNER_UNEXPECTED_CHAR, yytext, yylineno);
       } else {
+        if (token == TOKEN_INTEGER || token == TOKEN_STRING_LITERAL || token == TOKEN_CHARACTER_LITERAL || token == TOKEN_IDENTIFIER) {
          fprintf(stdout, "%s: %s\n", TOKEN_LOOKUP[token], yytext);
+        }
+        else {
+         fprintf(stdout, "%s\n", TOKEN_LOOKUP[token]);
+        }
         }
     }
 
