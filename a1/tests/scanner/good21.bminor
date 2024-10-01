@@ -1,3 +1,4 @@
+// VALID IDENTIFIERS
 test
 test123
 test234test
@@ -10,3 +11,14 @@ __sadf
 _34_asdf__432_a
 asdf_asdfasd_asdfasdf
 asdf_asdfasd_asdfasdf_354
+_a_a_A
+AWEWE
+WWEOIWE
+_WEWE
+_23WE
+_W21
+________
+_1_1_2_2_4
+A
+X
+x
