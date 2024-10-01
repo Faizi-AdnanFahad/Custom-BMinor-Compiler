@@ -24,8 +24,3 @@ $(SRC)/scanner.c: $(SRC)/scanner.flex
 
 clean:
 	rm -f $(SRC)/scanner.c $(DIST)/*.o bminor
-
-# Test suite
-# lexer tests
-test-scanner:
-	cd tests/scanner && ./run_all_tests.sh

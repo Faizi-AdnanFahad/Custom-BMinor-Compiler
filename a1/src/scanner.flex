@@ -1,6 +1,7 @@
 %{
 #include "../include/token.h"
 #include "../include/helper.h"
+#include "../include/constants.h"
 %}
 
 %option noinput
@@ -18,8 +19,8 @@ IDENTIFIER ({LETTER}|_)({LETTER}|{DIGIT}|_)*
 INTEGER_LITERAL {DIGIT}+
 SIGNED_INTEGER_LITERAL (\+|\-)?{DIGIT}+
 BOOLEAN_LITERAL (true|false)
-CHARACTER_LITERAL "'"\\?[\x0000-\xffff]"'"
-STRING_LITERAL \"([^"\n]*|\\["'ntr0ea\\])*\"
+CHARACTER_LITERAL '([^'\\]|\\.)'
+STRING_LITERAL \"([^"\n]*|\\["'ntr0efa\\])*\"
 
 INTEGER_TYPE integer
 BOOLEAN_TYPE boolean
@@ -116,8 +117,7 @@ while    { return TOKEN_WHILE;    }
   if (yytext[1] < 0 || yytext[1] > 255) {
     return TOKEN_ERROR;
   }
-  return TOKEN_CHARACTER_LITERAL;
-  
+
   process_char_literal(); 
   
   return TOKEN_CHARACTER_LITERAL; 

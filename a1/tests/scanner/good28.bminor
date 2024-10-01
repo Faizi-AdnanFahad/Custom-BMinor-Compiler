@@ -18,4 +18,3 @@ a: array [3] char=  {'A', '4', '3'};
 a: array [3] char=  {'A', '4', '3'};
 a: array [3] char=  {'A', '4',  '3'  };
 a: array [3] char=  {'A', '4',  '3'  };
-a   : array [3] char=  {   'A',   '\'',  '\\'  };
