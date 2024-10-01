@@ -58,8 +58,6 @@ typedef enum
      TOKEN_TYPE_ASSIGNMENT,
      TOKEN_LOGICAL_AND,
      TOKEN_LOGICAL_OR,
-     TOKEN_SINGLE_QOUTE,
-     TOKEN_DOUBLE_QOUTE,
      TOKEN_ERROR
 } token_t;
 

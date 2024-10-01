@@ -19,7 +19,7 @@ INTEGER_LITERAL {DIGIT}+
 SIGNED_INTEGER_LITERAL (\+|\-)?{DIGIT}+
 BOOLEAN_LITERAL (true|false)
 CHARACTER_LITERAL "'"\\?[\x0000-\xffff]"'"
-STRING_LITERAL \"([^"]*{ESCAPE}*)*\"
+STRING_LITERAL \"([^"\n]*|\\["'ntr0ea\\])*\"
 
 INTEGER_TYPE integer
 BOOLEAN_TYPE boolean
@@ -84,8 +84,6 @@ while    { return TOKEN_WHILE;    }
 "}"  { return TOKEN_CLOSE_CURLY_BRACE; }
 "["  { return TOKEN_OPEN_SQUARE_BRACE; }
 "]"  { return TOKEN_CLOSE_SQUARE_BRACE; }
-"\""  { return TOKEN_DOUBLE_QOUTE; }
-"'"  { return TOKEN_SINGLE_QOUTE; }
 
 ","  { return TOKEN_COMMA; }
 ":"  { return TOKEN_TYPE_ASSIGNMENT; }
