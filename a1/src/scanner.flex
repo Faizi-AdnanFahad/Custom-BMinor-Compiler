@@ -43,6 +43,7 @@ ARRAY_TYPE array
 "*"
   "\n" yylineno++; 
   "*/" BEGIN(INITIAL);
+  <<EOF>> EXIT_CODE=1; return TOKEN_EOF;
 }
 
 array    { return TOKEN_ARRAY;    }
