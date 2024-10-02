@@ -92,27 +92,7 @@ while    { return TOKEN_WHILE;    }
 "&&"  { return TOKEN_LOGICAL_AND; }
 "||"  { return TOKEN_LOGICAL_OR; }
 
-{SIGNED_INTEGER_LITERAL} {
-  const char *number = yytext;
-
-  if (number[0] == '+' || number[0] == '-') {
-    number++;  // Move the pointer to skip the '+' or '-' sign
-  }
-
-  // Check if the number exceeds the maximum length for a 64-bit integer
-  // 9223372036854775807 is the maximum 64-bit signed integer (19 digits)
-  if (strlen(number) > 19) {
-    return TOKEN_ERROR;  // The number is too large
-  }
-
-  long long value = strtoll(yytext, NULL, 10);  // Parse with sign included
-
-  if (value > INT64_MAX || value < INT64_MIN) {
-    return TOKEN_ERROR;
-  }
-
-  return TOKEN_DIGIT;
-}
+{SIGNED_INTEGER_LITERAL} { return TOKEN_DIGIT; }
 
 {CHARACTER_LITERAL} {
   if (yytext[1] < 0 || yytext[1] > 255) {

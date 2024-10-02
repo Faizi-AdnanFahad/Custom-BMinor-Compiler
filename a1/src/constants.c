@@ -1,6 +1,6 @@
-// program exit code constant
 int EXIT_CODE = 0;
 
+// program exit code constant
 // token.h token_t -> string map
 const char* TOKEN_LOOKUP[] = {
      "TOKEN_EOF", // enum index start 0
@@ -63,7 +63,7 @@ const char* TOKEN_LOOKUP[] = {
 const char ESCAPE_BYTE[] = {
      '\b',
      '\a',
-     '\e',
+     ' ',
      '\f',	
      '\n',	
      '\r',
