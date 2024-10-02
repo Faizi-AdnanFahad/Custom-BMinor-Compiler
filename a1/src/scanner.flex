@@ -125,12 +125,13 @@ while    { return TOKEN_WHILE;    }
 }
 
 {STRING_LITERAL} {
-  if (strlen(yytext) > 256) {
-    return TOKEN_ERROR;
-  } 
   
   process_string_literal();
   
+  if (strlen(yytext) > 256) {
+    return TOKEN_ERROR;
+  } 
+
   return TOKEN_STRING_LITERAL; 
 }
 
