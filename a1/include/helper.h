@@ -1,9 +1,7 @@
 #ifndef HELPER_H
 #define HELPER_H
 
-/* Add function prototypes here for functions defined in helper.c */
-
-// Some string methods.. pain in the ass
+// Some string methods.. pain in the butt
 void process_string_literal();
 void process_char_literal();
 void special_char_to_byte(char* str);
