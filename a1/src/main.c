@@ -34,9 +34,9 @@ void run_scan(const char *filename) {
         fprintf(stderr, ERRORMSG_SCANNER_UNEXPECTED_CHAR, yytext, yylineno);
       } else {
           if ( token == TOKEN_INTEGER || 
-               token == TOKEN_STRING_LITERAL 
-            || token == TOKEN_CHARACTER_LITERAL 
-            || token == TOKEN_IDENTIFIER) {
+               token == TOKEN_STRING_LITERAL || 
+               token == TOKEN_CHARACTER_LITERAL || 
+               token == TOKEN_IDENTIFIER) {
            fprintf(stdout, "%s: %s\n", TOKEN_LOOKUP[token], yytext);
           } else {
            fprintf(stdout, "%s\n", TOKEN_LOOKUP[token]);
