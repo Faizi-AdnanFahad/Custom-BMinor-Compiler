@@ -1,0 +1,65 @@
+#define _CRT_SECURE_NO_DEPRECATE
+#include "../include/token.h"
+#include "../include/messages.h"
+#include "../include/constants.h"
+
+extern void run_scan(const char *); 
+extern int yyparse(); 
+void run_parser(const char *);
+
+int main(int argc, char *argv[]) {
+    const char *option = argv[1];
+    const char *filename = argv[2];
+
+    if (argc < 3) {
+        fprintf(stderr, "Usage: %s -scan sourcefile.bminor\n", argv[0]);
+        fprintf(stderr, "Usage: %s -parse sourcefile.bminor \n", argv[0]);
+        exit(1);
+    }
+
+    if (strcmp(option, "-scan") == 0) run_scan(filename); 
+    if (strcmp(option, "-parse") == 0) run_parser(filename); 
+    else {
+        fprintf(stderr, "Unknown option: %s\n", option);
+        exit(1);
+    }
+
+    return EXIT_CODE;
+}
+
+void run_scan(const char *filename) {
+    // Open the file for reading
+    yyin = fopen(filename, "r");
+    
+    // while not EOF
+    int token = -1;
+    while((token = yylex()) != 0) {
+      if(token == TOKEN_ERROR) {
+        fprintf(stderr, ERRORMSG_SCANNER_UNEXPECTED_CHAR, yytext, yylineno);
+        exit(1);
+      } else {
+          if ( token == TOKEN_INTEGER || 
+               token == TOKEN_STRING_LITERAL || 
+               token == TOKEN_CHARACTER_LITERAL || 
+               token == TOKEN_IDENTIFIER) {
+           fprintf(stdout, "%s: %s, %d\n", TOKEN_LOOKUP[token], yytext, token);
+          } else {
+           fprintf(stdout, "%s, %d\n", TOKEN_LOOKUP[token], token);
+          }
+        }
+    }
+
+    fclose(yyin);
+    
+    if(EXIT_CODE == 1) exit(1);
+}
+
+void run_parser(const char* filename) {
+    printf("running parser\n");
+    yyin = fopen(filename, "r");
+
+    if(yyparse() == 0) printf("Parse success\n");
+    else printf("Parse failed\n");
+
+    fclose(yyin);
+}
