@@ -1,0 +1,9 @@
+testName: boolean = true;
+
+testName: char = 'a';
+
+testName: integer = 23;
+
+testName: string = "this is a string";
+
+testName: string = "sas";

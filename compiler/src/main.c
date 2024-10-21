@@ -7,7 +7,7 @@
 extern void run_scan(const char *); 
 extern int yyparse(); 
 void run_parser(const char *);
-extern char* parser_result = "";
+// extern char* parser_result = "";
 
 int main(int argc, char *argv[]) {
     const char *option = argv[1];
@@ -63,7 +63,7 @@ void run_parser(const char* filename) {
 
     if(yyparse() == 0)  {
       printf("Parse success\n");
-      printf("result %s\n", parser_result);
+    //   printf("result %s\n", parser_result);
     // printf("Parsed expression: %d %c %d\n",
     //             parser_result->left_value,
     //             parser_result->operator,

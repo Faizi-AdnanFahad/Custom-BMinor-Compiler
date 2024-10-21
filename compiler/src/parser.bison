@@ -70,22 +70,40 @@ int yyerror( char *str);
 
 /* Here is the grammar: program is the start symbol. */
 
-     program : expr TOKEN_SEMICOLON;
+     // The program can either be a series of declarations or an expression followed by a semicolon.
+     program : expr TOKEN_SEMICOLON
+          ;
 
-     expr : expr TOKEN_ADD term
-     | expr TOKEN_SUB term
-     | term
-     ;
+     // Top-level expression rule: allows addition, subtraction, logical OR, and comparison operators
+     expr : expr TOKEN_ADD term               // addition
+          | expr TOKEN_SUB term               // subtraction
+          | expr TOKEN_LOGICAL_OR term                // logical OR (for booleans)
+          | expr TOKEN_EQ term             // equality comparison (==)
+          | expr TOKEN_NEQ term               // inequality comparison (!=)
+          | expr TOKEN_LT term              // less-than (<)
+          | expr TOKEN_GT term           // greater-than (>)
+          | expr TOKEN_LE term            // less-than-or-equal (<=)
+          | expr TOKEN_GE term         // greater-than-or-equal (>=)
+          | term
+          ;
 
-     term : term TOKEN_MUL factor
-     | term TOKEN_DIV factor
-     | factor
-     ;
+     // Term: allows multiplication, division, logical AND, and supports string and char comparisons
+     term : term TOKEN_MUL factor             // multiplication
+          | term TOKEN_DIV factor             // division
+          | term TOKEN_LOGICAL_AND factor             // logical AND (for booleans)
+          | factor
+          ;
 
-     factor: TOKEN_SUB factor
-     | TOKEN_LPAREN expr TOKEN_RPAREN
-     | TOKEN_DIGIT
-     ;
+     // Factor: base components like literals (integer, boolean, string, char), negation, and parenthesis
+     factor : TOKEN_SUB factor                // negation
+          | TOKEN_LPAREN expr TOKEN_RPAREN  // parentheses for grouping
+          | TOKEN_DIGIT                     // integer literal
+          | TOKEN_TRUE             
+          | TOKEN_FALSE
+          | TOKEN_STRING_LITERAL            // string literal ("example")
+          | TOKEN_CHARACTER_LITERAL              // char literal ('a')
+          | TOKEN_IDENTIFIER                // variable names
+          ;
 %%
 
 /* This function is called whenever the parser fails to parse the input */
