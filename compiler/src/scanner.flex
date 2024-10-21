@@ -82,8 +82,8 @@ while    { return TOKEN_WHILE;    }
 
 "("  { return TOKEN_LPAREN; }
 ")"  { return TOKEN_RPAREN; }
-"{"  { return TOKEN_LPAREN; }
-"}"  { return TOKEN_RPAREN; }
+"{"  { return TOKEN_OPEN_CURLY_BRACE; }
+"}"  { return TOKEN_CLOSE_CURLY_BRACE; }
 "["  { return TOKEN_OPEN_SQUARE_BRACE; }
 "]"  { return TOKEN_CLOSE_SQUARE_BRACE; }
 

@@ -9,7 +9,6 @@
 extern char *yytext;
 extern int yylex();
 int yyerror( char *str);
-extern char* parser_result;
 
 %}
 %token TOKEN_EOF                            0 // enum index start 0
@@ -71,15 +70,27 @@ extern char* parser_result;
 
 /* Here is the grammar: program is the start symbol. */
 
-expr : TOKEN_ADD { parser_result = strdup(yytext);} 
-;
+     program : expr TOKEN_SEMICOLON;
 
+     expr : expr TOKEN_ADD term
+     | expr TOKEN_SUB term
+     | term
+     ;
+
+     term : term TOKEN_MUL factor
+     | term TOKEN_DIV factor
+     | factor
+     ;
+
+     factor: TOKEN_SUB factor
+     | TOKEN_LPAREN expr TOKEN_RPAREN
+     | TOKEN_DIGIT
+     ;
 %%
 
 /* This function is called whenever the parser fails to parse the input */
 int yyerror( char *s ) {
-    printf("parse error: %s\n",s);
-    printf("test ali. Coming from Bison\n",s);
+    printf("parser.bison: parse error: %s\n",s);
     return 1;
 }
 
