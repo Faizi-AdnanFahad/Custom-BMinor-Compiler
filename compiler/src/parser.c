@@ -74,7 +74,7 @@
 extern char *yytext;
 extern int yylex();
 int yyerror( char *str);
-extern struct expr * parser_result;
+extern char* parser_result;
 
 
 #line 81 "src/parser.c" /* yacc.c:339  */
@@ -426,18 +426,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  5
+#define YYFINAL  3
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   5
+#define YYLAST   1
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  57
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  3
+#define YYNNTS  2
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  3
+#define YYNRULES  2
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  8
+#define YYNSTATES  4
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
@@ -483,7 +483,7 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    74,    74,    77
+       0,    74,    74
 };
 #endif
 
@@ -508,7 +508,7 @@ static const char *const yytname[] =
   "TOKEN_CLOSE_CURLY_BRACE", "TOKEN_OPEN_SQUARE_BRACE",
   "TOKEN_CLOSE_SQUARE_BRACE", "TOKEN_COMMA", "TOKEN_TYPE_ASSIGNMENT",
   "TOKEN_LOGICAL_AND", "TOKEN_LOGICAL_OR", "TOKEN_ERROR", "$accept",
-  "prog", "expr", YY_NULLPTR
+  "expr", YY_NULLPTR
 };
 #endif
 
@@ -526,10 +526,10 @@ static const yytype_uint16 yytoknum[] =
 };
 # endif
 
-#define YYPACT_NINF -40
+#define YYPACT_NINF -41
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-40)))
+  (!!((Yystate) == (-41)))
 
 #define YYTABLE_NINF -1
 
@@ -540,7 +540,7 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -4,   -39,     2,     0,     1,   -40,   -40,   -40
+     -40,   -41,     1,   -41
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -548,19 +548,19 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,     0,     0,     0,     0,     1,     2,     3
+       0,     2,     0,     1
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -40,   -40,   -40
+     -41,   -41
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2,     3
+      -1,     2
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -568,31 +568,31 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-       1,     4,     5,     6,     0,     7
+       1,     3
 };
 
-static const yytype_int8 yycheck[] =
+static const yytype_uint8 yycheck[] =
 {
-       4,    40,     0,     3,    -1,     4
+      40,     0
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     4,    58,    59,    40,     0,     3,     4
+       0,    40,    58,     0
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    57,    58,    59
+       0,    57,    58
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     2,     3
+       0,     2,     1
 };
 
 
@@ -1268,8 +1268,14 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-      
-#line 1273 "src/parser.c" /* yacc.c:1646  */
+        case 2:
+#line 74 "src/parser.bison" /* yacc.c:1646  */
+    { parser_result = strdup(yytext);}
+#line 1275 "src/parser.c" /* yacc.c:1646  */
+    break;
+
+
+#line 1279 "src/parser.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1497,7 +1503,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 80 "src/parser.bison" /* yacc.c:1906  */
+#line 77 "src/parser.bison" /* yacc.c:1906  */
 
 
 /* This function is called whenever the parser fails to parse the input */

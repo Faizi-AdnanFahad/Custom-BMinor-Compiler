@@ -1,5 +1,7 @@
 Terminals unused in grammar
 
+   TOKEN_SEMICOLON
+   TOKEN_DIGIT
    TOKEN_CHARACTER_LITERAL
    TOKEN_INTEGER_ASSINGMENT
    TOKEN_BOOLEAN_ASSIGNMENT
@@ -55,18 +57,16 @@ Terminals unused in grammar
 
 Grammar
 
-    0 $accept: prog TOKEN_EOF
+    0 $accept: expr TOKEN_EOF
 
-    1 prog: expr TOKEN_SEMICOLON
-
-    2 expr: TOKEN_DIGIT TOKEN_ADD TOKEN_DIGIT
+    1 expr: TOKEN_ADD
 
 
 Terminals, with rules where they appear
 
 TOKEN_EOF (0) 0
-TOKEN_SEMICOLON (1) 1
-TOKEN_DIGIT (2) 2
+TOKEN_SEMICOLON (1)
+TOKEN_DIGIT (2)
 TOKEN_CHARACTER_LITERAL (3)
 TOKEN_INTEGER_ASSINGMENT (4)
 TOKEN_BOOLEAN_ASSIGNMENT (5)
@@ -102,7 +102,7 @@ TOKEN_LT (34)
 TOKEN_MOD (35)
 TOKEN_DIV (36)
 TOKEN_MUL (37)
-TOKEN_ADD (38) 2
+TOKEN_ADD (38) 1
 TOKEN_SUB (39)
 TOKEN_DECR (40)
 TOKEN_INCR (41)
@@ -126,66 +126,35 @@ Nonterminals, with rules where they appear
 
 $accept (57)
     on left: 0
-prog (58)
+expr (58)
     on left: 1, on right: 0
-expr (59)
-    on left: 2, on right: 1
 
 
 State 0
 
-    0 $accept: . prog TOKEN_EOF
+    0 $accept: . expr TOKEN_EOF
 
-    TOKEN_DIGIT  shift, and go to state 1
+    TOKEN_ADD  shift, and go to state 1
 
-    prog  go to state 2
-    expr  go to state 3
+    expr  go to state 2
 
 
 State 1
 
-    2 expr: TOKEN_DIGIT . TOKEN_ADD TOKEN_DIGIT
+    1 expr: TOKEN_ADD .
 
-    TOKEN_ADD  shift, and go to state 4
+    $default  reduce using rule 1 (expr)
 
 
 State 2
 
-    0 $accept: prog . TOKEN_EOF
+    0 $accept: expr . TOKEN_EOF
 
-    TOKEN_EOF  shift, and go to state 5
+    TOKEN_EOF  shift, and go to state 3
 
 
 State 3
 
-    1 prog: expr . TOKEN_SEMICOLON
-
-    TOKEN_SEMICOLON  shift, and go to state 6
-
-
-State 4
-
-    2 expr: TOKEN_DIGIT TOKEN_ADD . TOKEN_DIGIT
-
-    TOKEN_DIGIT  shift, and go to state 7
-
-
-State 5
-
-    0 $accept: prog TOKEN_EOF .
+    0 $accept: expr TOKEN_EOF .
 
     $default  accept
-
-
-State 6
-
-    1 prog: expr TOKEN_SEMICOLON .
-
-    $default  reduce using rule 1 (prog)
-
-
-State 7
-
-    2 expr: TOKEN_DIGIT TOKEN_ADD TOKEN_DIGIT .
-
-    $default  reduce using rule 2 (expr)

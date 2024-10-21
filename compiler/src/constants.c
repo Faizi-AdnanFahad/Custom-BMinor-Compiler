@@ -1,6 +1,6 @@
 int EXIT_CODE = 0;
 
-struct expr * parser_result = 0;
+// struct expr * parser_result = 0;
 
 // program exit code constant
 // token.h token_t -> string map
@@ -92,4 +92,3 @@ const char ESCAPE_CODE[] = {
      '"',	
      '?'
 };
-

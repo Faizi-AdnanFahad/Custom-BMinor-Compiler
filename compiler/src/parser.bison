@@ -9,7 +9,7 @@
 extern char *yytext;
 extern int yylex();
 int yyerror( char *str);
-extern struct expr * parser_result;
+extern char* parser_result;
 
 %}
 %token TOKEN_EOF                            0 // enum index start 0
@@ -71,10 +71,7 @@ extern struct expr * parser_result;
 
 /* Here is the grammar: program is the start symbol. */
 
-prog : expr TOKEN_SEMICOLON 
-;
-
-expr : TOKEN_DIGIT TOKEN_ADD TOKEN_DIGIT 
+expr : TOKEN_ADD { parser_result = strdup(yytext);} 
 ;
 
 %%
