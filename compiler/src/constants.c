@@ -1,6 +1,6 @@
 int EXIT_CODE = 0;
 
-struct expr * parser_result = 0;
+// struct expr * parser_result = 0;
 
 // program exit code constant
 // token.h token_t -> string map
@@ -51,8 +51,8 @@ const char* TOKEN_LOOKUP[] = {
      "TOKEN_ASSIGNMENT",
      "TOKEN_LPAREN",
      "TOKEN_RPAREN",
-     "TOKEN_OPEN_ROUND_BRACE",
-     "TOKEN_CLOSE_ROUND_BRACE",
+     "TOKEN_OPEN_CURLY_BRACE",
+     "TOKEN_CLOSE_CURLY_BRACE",
      "TOKEN_OPEN_SQUARE_BRACE",
      "TOKEN_CLOSE_SQUARE_BRACE",
      "TOKEN_COMMA",
@@ -92,4 +92,3 @@ const char ESCAPE_CODE[] = {
      '"',	
      '?'
 };
-
