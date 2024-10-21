@@ -2,156 +2,81 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "helper.h"
+#include "../include/helper.h"
+#include "../include/expr.h"
+#include "../include/print.h"
 
 extern char *yytext;
 extern int yylex();
 int yyerror( char *str);
+extern struct expr * parser_result;
+
 %}
-
-%code requires {
-  enum yytokentype {
-     TOKEN_EOF = 0, // enum index start 0
-     TOKEN_SEMICOLON, // enum index start 0
-     TOKEN_DIGIT,
-     TOKEN_CHARACTER_LITERAL,
-     TOKEN_INTEGER_ASSINGMENT,
-     TOKEN_BOOLEAN_ASSIGNMENT,
-     TOKEN_CHARACTER_ASSIGNMENT,
-     TOKEN_STRING_ASSIGNMENT,
-     TOKEN_STRING_LITERAL,
-     TOKEN_INTEGER_ARRAY,
-     TOKEN_BOOLEAN_ARRAY,
-     TOKEN_CHARACTER_ARRAY,
-     TOKEN_STRING_ARRAY,
-     TOKEN_ARRAY,
-     TOKEN_BOOLEAN,
-     TOKEN_CHAR,
-     TOKEN_ELSE,
-     TOKEN_FALSE,
-     TOKEN_FOR,
-     TOKEN_FUNCTION,
-     TOKEN_IF,
-     TOKEN_INTEGER,
-     TOKEN_PRINT,
-     TOKEN_RETURN,
-     TOKEN_STRING,
-     TOKEN_TRUE,
-     TOKEN_VOID,
-     TOKEN_WHILE,
-     TOKEN_IDENTIFIER,
-     TOKEN_GE, 
-     TOKEN_LE, 
-     TOKEN_EQ, 
-     TOKEN_NEQ,
-     TOKEN_GT,
-     TOKEN_LT,
-     TOKEN_MOD,
-     TOKEN_DIV,
-     TOKEN_MUL,
-     TOKEN_ADD,
-     TOKEN_SUB,
-     TOKEN_DECR,
-     TOKEN_INCR,
-     TOKEN_EXP,
-     TOKEN_ASSIGNMENT,
-     TOKEN_OPEN_ROUND_BRACE,
-     TOKEN_CLOSE_ROUND_BRACE,
-     TOKEN_OPEN_CURLY_BRACE,
-     TOKEN_CLOSE_CURLY_BRACE,
-     TOKEN_OPEN_SQUARE_BRACE,
-     TOKEN_CLOSE_SQUARE_BRACE,
-     TOKEN_COMMA,
-     TOKEN_TYPE_ASSIGNMENT,
-     TOKEN_LOGICAL_AND,
-     TOKEN_LOGICAL_OR,
-     TOKEN_LOGICAL_OR,
-     TOKEN_ERROR
-  };
-}
-
-%token TOKEN_INTEGER_LITERAL 0
-%token TOKEN_PLUS
-%token TOKEN_MINUS
-%token TOKEN_LPAREN
-%token TOKEN_RPAREN
-%token TOKEN_SEMI
-%token TOKEN_EOF
-%token TOKEN_SEMICOLON
-%token TOKEN_DIGIT
-%token TOKEN_CHARACTER_LITERAL
-%token TOKEN_INTEGER_ASSINGMENT
-%token TOKEN_BOOLEAN_ASSIGNMENT
-%token TOKEN_CHARACTER_ASSIGNMENT
-%token TOKEN_STRING_ASSIGNMENT
-%token TOKEN_STRING_LITERAL
-%token TOKEN_INTEGER_ARRAY
-%token TOKEN_BOOLEAN_ARRAY
-%token TOKEN_CHARACTER_ARRAY
-%token TOKEN_STRING_ARRAY
-%token TOKEN_ARRAY
-%token TOKEN_BOOLEAN
-%token TOKEN_CHAR
-%token TOKEN_ELSE
-%token TOKEN_FALSE
-%token TOKEN_FOR
-%token TOKEN_FUNCTION
-%token TOKEN_IF
-%token TOKEN_INTEGER
-%token TOKEN_PRINT
-%token TOKEN_RETURN
-%token TOKEN_STRING
-%token TOKEN_TRUE
-%token TOKEN_VOID
-%token TOKEN_WHILE
-%token TOKEN_IDENTIFIER
-%token TOKEN_GE
-%token TOKEN_LE 
-%token TOKEN_EQ
-%token TOKEN_NEQ
-%token TOKEN_GT
-%token TOKEN_LT
-%token TOKEN_MOD
-%token TOKEN_DIV
-%token TOKEN_MUL
-%token TOKEN_ADD
-%token TOKEN_SUB
-%token TOKEN_DECR
-%token TOKEN_INCR
-%token TOKEN_EXP
-%token TOKEN_ASSIGNMENT
-%token TOKEN_OPEN_ROUND_BRACE
-%token TOKEN_CLOSE_ROUND_BRACE
-%token TOKEN_OPEN_CURLY_BRACE
-%token TOKEN_CLOSE_CURLY_BRACE
-%token TOKEN_OPEN_SQUARE_BRACE
-%token TOKEN_CLOSE_SQUARE_BRACE
-%token TOKEN_COMMA
-%token TOKEN_TYPE_ASSIGNMENT
-%token TOKEN_LOGICAL_AND
-%token TOKEN_LOGICAL_OR
-%token TOKEN_ERROR
-
+%token TOKEN_EOF                            0 // enum index start 0
+%token TOKEN_SEMICOLON                      1
+%token TOKEN_DIGIT                          2
+%token TOKEN_CHARACTER_LITERAL              3
+%token TOKEN_INTEGER_ASSINGMENT             4
+%token TOKEN_BOOLEAN_ASSIGNMENT 5
+%token TOKEN_CHARACTER_ASSIGNMENT 6
+%token TOKEN_STRING_ASSIGNMENT 7
+%token TOKEN_STRING_LITERAL 8
+%token TOKEN_INTEGER_ARRAY 9
+%token TOKEN_BOOLEAN_ARRAY 10
+%token TOKEN_CHARACTER_ARRAY 11
+%token TOKEN_STRING_ARRAY 12
+%token TOKEN_ARRAY 13
+%token TOKEN_BOOLEAN 14
+%token TOKEN_CHAR 15
+%token TOKEN_ELSE 16
+%token TOKEN_FALSE 17
+%token TOKEN_FOR 18
+%token TOKEN_FUNCTION 19
+%token TOKEN_IF 20
+%token TOKEN_INTEGER_LITERAL 21
+%token TOKEN_PRINT 22
+%token TOKEN_RETURN 23
+%token TOKEN_STRING 24
+%token TOKEN_TRUE 25
+%token TOKEN_VOID 26
+%token TOKEN_WHILE 27
+%token TOKEN_IDENTIFIER 28
+%token TOKEN_GE 29
+%token TOKEN_LE 30
+%token TOKEN_EQ 31
+%token TOKEN_NEQ 32
+%token TOKEN_GT 33
+%token TOKEN_LT 34
+%token TOKEN_MOD 35
+%token TOKEN_DIV 36
+%token TOKEN_MUL 37
+%token TOKEN_ADD 38
+%token TOKEN_SUB 39
+%token TOKEN_DECR 40
+%token TOKEN_INCR 41
+%token TOKEN_EXP 42
+%token TOKEN_ASSIGNMENT 43
+%token TOKEN_LPAREN 44
+%token TOKEN_RPAREN 45
+%token TOKEN_OPEN_CURLY_BRACE 46
+%token TOKEN_CLOSE_CURLY_BRACE 47
+%token TOKEN_OPEN_SQUARE_BRACE 48
+%token TOKEN_CLOSE_SQUARE_BRACE 49
+%token TOKEN_COMMA 50
+%token TOKEN_TYPE_ASSIGNMENT 51
+%token TOKEN_LOGICAL_AND 52
+%token TOKEN_LOGICAL_OR 53
+%token TOKEN_ERROR 54
 %%
 
 /* Here is the grammar: program is the start symbol. */
 
-    program : expr TOKEN_SEMI
-    ;
+prog : expr TOKEN_SEMICOLON 
+;
 
-    expr : expr TOKEN_PLUS expr
-    | expr TOKEN_MINUS term
-    | term
-    ;
+expr : TOKEN_DIGIT TOKEN_ADD TOKEN_DIGIT 
+;
 
-    term : term TOKEN_MUL factor
-    | term TOKEN_DIV factor
-    | factor
-    ;
-    factor: TOKEN_MINUS factor
-    | TOKEN_LPAREN expr TOKEN_RPAREN
-    | TOKEN_INTEGER_LITERAL
-    ;
 %%
 
 /* This function is called whenever the parser fails to parse the input */

@@ -67,13 +67,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "helper.h"
+#include "../include/helper.h"
+#include "../include/expr.h"
+#include "../include/print.h"
 
 extern char *yytext;
 extern int yylex();
 int yyerror( char *str);
+extern struct expr * parser_result;
 
-#line 77 "src/parser.c" /* yacc.c:339  */
+
+#line 81 "src/parser.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -102,136 +106,67 @@ int yyerror( char *str);
 #if YYDEBUG
 extern int yydebug;
 #endif
-/* "%code requires" blocks.  */
-#line 12 "src/parser.bison" /* yacc.c:355  */
-
-  enum yytokentype {
-     TOKEN_EOF = 0, // enum index start 0
-     TOKEN_SEMICOLON, // enum index start 0
-     TOKEN_DIGIT,
-     TOKEN_CHARACTER_LITERAL,
-     TOKEN_INTEGER_ASSINGMENT,
-     TOKEN_BOOLEAN_ASSIGNMENT,
-     TOKEN_CHARACTER_ASSIGNMENT,
-     TOKEN_STRING_ASSIGNMENT,
-     TOKEN_STRING_LITERAL,
-     TOKEN_INTEGER_ARRAY,
-     TOKEN_BOOLEAN_ARRAY,
-     TOKEN_CHARACTER_ARRAY,
-     TOKEN_STRING_ARRAY,
-     TOKEN_ARRAY,
-     TOKEN_BOOLEAN,
-     TOKEN_CHAR,
-     TOKEN_ELSE,
-     TOKEN_FALSE,
-     TOKEN_FOR,
-     TOKEN_FUNCTION,
-     TOKEN_IF,
-     TOKEN_INTEGER,
-     TOKEN_PRINT,
-     TOKEN_RETURN,
-     TOKEN_STRING,
-     TOKEN_TRUE,
-     TOKEN_VOID,
-     TOKEN_WHILE,
-     TOKEN_IDENTIFIER,
-     TOKEN_GE, 
-     TOKEN_LE, 
-     TOKEN_EQ, 
-     TOKEN_NEQ,
-     TOKEN_GT,
-     TOKEN_LT,
-     TOKEN_MOD,
-     TOKEN_DIV,
-     TOKEN_MUL,
-     TOKEN_ADD,
-     TOKEN_SUB,
-     TOKEN_DECR,
-     TOKEN_INCR,
-     TOKEN_EXP,
-     TOKEN_ASSIGNMENT,
-     TOKEN_OPEN_ROUND_BRACE,
-     TOKEN_CLOSE_ROUND_BRACE,
-     TOKEN_OPEN_CURLY_BRACE,
-     TOKEN_CLOSE_CURLY_BRACE,
-     TOKEN_OPEN_SQUARE_BRACE,
-     TOKEN_CLOSE_SQUARE_BRACE,
-     TOKEN_COMMA,
-     TOKEN_TYPE_ASSIGNMENT,
-     TOKEN_LOGICAL_AND,
-     TOKEN_LOGICAL_OR,
-     TOKEN_LOGICAL_OR,
-     TOKEN_ERROR
-  };
-
-#line 168 "src/parser.c" /* yacc.c:355  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
   enum yytokentype
   {
-    TOKEN_INTEGER_LITERAL = 0,
-    TOKEN_PLUS = 258,
-    TOKEN_MINUS = 259,
-    TOKEN_LPAREN = 260,
-    TOKEN_RPAREN = 261,
-    TOKEN_SEMI = 262,
-    TOKEN_EOF = 263,
-    TOKEN_SEMICOLON = 264,
-    TOKEN_DIGIT = 265,
-    TOKEN_CHARACTER_LITERAL = 266,
-    TOKEN_INTEGER_ASSINGMENT = 267,
-    TOKEN_BOOLEAN_ASSIGNMENT = 268,
-    TOKEN_CHARACTER_ASSIGNMENT = 269,
-    TOKEN_STRING_ASSIGNMENT = 270,
-    TOKEN_STRING_LITERAL = 271,
-    TOKEN_INTEGER_ARRAY = 272,
-    TOKEN_BOOLEAN_ARRAY = 273,
-    TOKEN_CHARACTER_ARRAY = 274,
-    TOKEN_STRING_ARRAY = 275,
-    TOKEN_ARRAY = 276,
-    TOKEN_BOOLEAN = 277,
-    TOKEN_CHAR = 278,
-    TOKEN_ELSE = 279,
-    TOKEN_FALSE = 280,
-    TOKEN_FOR = 281,
-    TOKEN_FUNCTION = 282,
-    TOKEN_IF = 283,
-    TOKEN_INTEGER = 284,
-    TOKEN_PRINT = 285,
-    TOKEN_RETURN = 286,
-    TOKEN_STRING = 287,
-    TOKEN_TRUE = 288,
-    TOKEN_VOID = 289,
-    TOKEN_WHILE = 290,
-    TOKEN_IDENTIFIER = 291,
-    TOKEN_GE = 292,
-    TOKEN_LE = 293,
-    TOKEN_EQ = 294,
-    TOKEN_NEQ = 295,
-    TOKEN_GT = 296,
-    TOKEN_LT = 297,
-    TOKEN_MOD = 298,
-    TOKEN_DIV = 299,
-    TOKEN_MUL = 300,
-    TOKEN_ADD = 301,
-    TOKEN_SUB = 302,
-    TOKEN_DECR = 303,
-    TOKEN_INCR = 304,
-    TOKEN_EXP = 305,
-    TOKEN_ASSIGNMENT = 306,
-    TOKEN_OPEN_ROUND_BRACE = 307,
-    TOKEN_CLOSE_ROUND_BRACE = 308,
-    TOKEN_OPEN_CURLY_BRACE = 309,
-    TOKEN_CLOSE_CURLY_BRACE = 310,
-    TOKEN_OPEN_SQUARE_BRACE = 311,
-    TOKEN_CLOSE_SQUARE_BRACE = 312,
-    TOKEN_COMMA = 313,
-    TOKEN_TYPE_ASSIGNMENT = 314,
-    TOKEN_LOGICAL_AND = 315,
-    TOKEN_LOGICAL_OR = 316,
-    TOKEN_ERROR = 317
+    TOKEN_EOF = 0,
+    TOKEN_SEMICOLON = 1,
+    TOKEN_DIGIT = 2,
+    TOKEN_CHARACTER_LITERAL = 3,
+    TOKEN_INTEGER_ASSINGMENT = 4,
+    TOKEN_BOOLEAN_ASSIGNMENT = 5,
+    TOKEN_CHARACTER_ASSIGNMENT = 6,
+    TOKEN_STRING_ASSIGNMENT = 7,
+    TOKEN_STRING_LITERAL = 8,
+    TOKEN_INTEGER_ARRAY = 9,
+    TOKEN_BOOLEAN_ARRAY = 10,
+    TOKEN_CHARACTER_ARRAY = 11,
+    TOKEN_STRING_ARRAY = 12,
+    TOKEN_ARRAY = 13,
+    TOKEN_BOOLEAN = 14,
+    TOKEN_CHAR = 15,
+    TOKEN_ELSE = 16,
+    TOKEN_FALSE = 17,
+    TOKEN_FOR = 18,
+    TOKEN_FUNCTION = 19,
+    TOKEN_IF = 20,
+    TOKEN_INTEGER_LITERAL = 21,
+    TOKEN_PRINT = 22,
+    TOKEN_RETURN = 23,
+    TOKEN_STRING = 24,
+    TOKEN_TRUE = 25,
+    TOKEN_VOID = 26,
+    TOKEN_WHILE = 27,
+    TOKEN_IDENTIFIER = 28,
+    TOKEN_GE = 29,
+    TOKEN_LE = 30,
+    TOKEN_EQ = 31,
+    TOKEN_NEQ = 32,
+    TOKEN_GT = 33,
+    TOKEN_LT = 34,
+    TOKEN_MOD = 35,
+    TOKEN_DIV = 36,
+    TOKEN_MUL = 37,
+    TOKEN_ADD = 38,
+    TOKEN_SUB = 39,
+    TOKEN_DECR = 40,
+    TOKEN_INCR = 41,
+    TOKEN_EXP = 42,
+    TOKEN_ASSIGNMENT = 43,
+    TOKEN_LPAREN = 44,
+    TOKEN_RPAREN = 45,
+    TOKEN_OPEN_CURLY_BRACE = 46,
+    TOKEN_CLOSE_CURLY_BRACE = 47,
+    TOKEN_OPEN_SQUARE_BRACE = 48,
+    TOKEN_CLOSE_SQUARE_BRACE = 49,
+    TOKEN_COMMA = 50,
+    TOKEN_TYPE_ASSIGNMENT = 51,
+    TOKEN_LOGICAL_AND = 52,
+    TOKEN_LOGICAL_OR = 53,
+    TOKEN_ERROR = 54
   };
 #endif
 
@@ -251,7 +186,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 255 "src/parser.c" /* yacc.c:358  */
+#line 190 "src/parser.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -491,23 +426,23 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  10
+#define YYFINAL  5
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   19
+#define YYLAST   5
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  63
+#define YYNTOKENS  57
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  5
+#define YYNNTS  3
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  11
+#define YYNRULES  3
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  21
+#define YYNSTATES  8
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   317
+#define YYMAXUTOK   257
 
 #define YYTRANSLATE(YYX)                                                \
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -516,7 +451,12 @@ union yyalloc
    as returned by yylex, without out-of-bounds checking.  */
 static const yytype_uint8 yytranslate[] =
 {
-       0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       0,     3,     4,     5,     6,     7,     8,     9,    10,    11,
+      12,    13,    14,    15,    16,    17,    18,    19,    20,    21,
+      22,    23,    24,    25,    26,    27,    28,    29,    30,    31,
+      32,    33,    34,    35,    36,    37,    38,    39,    40,    41,
+      42,    43,    44,    45,    46,    47,    48,    49,    50,    51,
+      52,    53,    54,    55,    56,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -536,26 +476,14 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
-      35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
-      45,    46,    47,    48,    49,    50,    51,    52,    53,    54,
-      55,    56,    57,    58,    59,    60,    61,    62
+       2,     2,     2,     2,     2,     2,     1,     2
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   139,   139,   142,   143,   144,   147,   148,   149,   151,
-     152,   153
+       0,    74,    74,    77
 };
 #endif
 
@@ -564,25 +492,23 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "TOKEN_INTEGER_LITERAL", "error", "$undefined", "TOKEN_PLUS",
-  "TOKEN_MINUS", "TOKEN_LPAREN", "TOKEN_RPAREN", "TOKEN_SEMI", "TOKEN_EOF",
-  "TOKEN_SEMICOLON", "TOKEN_DIGIT", "TOKEN_CHARACTER_LITERAL",
-  "TOKEN_INTEGER_ASSINGMENT", "TOKEN_BOOLEAN_ASSIGNMENT",
-  "TOKEN_CHARACTER_ASSIGNMENT", "TOKEN_STRING_ASSIGNMENT",
-  "TOKEN_STRING_LITERAL", "TOKEN_INTEGER_ARRAY", "TOKEN_BOOLEAN_ARRAY",
-  "TOKEN_CHARACTER_ARRAY", "TOKEN_STRING_ARRAY", "TOKEN_ARRAY",
-  "TOKEN_BOOLEAN", "TOKEN_CHAR", "TOKEN_ELSE", "TOKEN_FALSE", "TOKEN_FOR",
-  "TOKEN_FUNCTION", "TOKEN_IF", "TOKEN_INTEGER", "TOKEN_PRINT",
-  "TOKEN_RETURN", "TOKEN_STRING", "TOKEN_TRUE", "TOKEN_VOID",
-  "TOKEN_WHILE", "TOKEN_IDENTIFIER", "TOKEN_GE", "TOKEN_LE", "TOKEN_EQ",
-  "TOKEN_NEQ", "TOKEN_GT", "TOKEN_LT", "TOKEN_MOD", "TOKEN_DIV",
-  "TOKEN_MUL", "TOKEN_ADD", "TOKEN_SUB", "TOKEN_DECR", "TOKEN_INCR",
-  "TOKEN_EXP", "TOKEN_ASSIGNMENT", "TOKEN_OPEN_ROUND_BRACE",
-  "TOKEN_CLOSE_ROUND_BRACE", "TOKEN_OPEN_CURLY_BRACE",
+  "TOKEN_EOF", "error", "$undefined", "TOKEN_SEMICOLON", "TOKEN_DIGIT",
+  "TOKEN_CHARACTER_LITERAL", "TOKEN_INTEGER_ASSINGMENT",
+  "TOKEN_BOOLEAN_ASSIGNMENT", "TOKEN_CHARACTER_ASSIGNMENT",
+  "TOKEN_STRING_ASSIGNMENT", "TOKEN_STRING_LITERAL", "TOKEN_INTEGER_ARRAY",
+  "TOKEN_BOOLEAN_ARRAY", "TOKEN_CHARACTER_ARRAY", "TOKEN_STRING_ARRAY",
+  "TOKEN_ARRAY", "TOKEN_BOOLEAN", "TOKEN_CHAR", "TOKEN_ELSE",
+  "TOKEN_FALSE", "TOKEN_FOR", "TOKEN_FUNCTION", "TOKEN_IF",
+  "TOKEN_INTEGER_LITERAL", "TOKEN_PRINT", "TOKEN_RETURN", "TOKEN_STRING",
+  "TOKEN_TRUE", "TOKEN_VOID", "TOKEN_WHILE", "TOKEN_IDENTIFIER",
+  "TOKEN_GE", "TOKEN_LE", "TOKEN_EQ", "TOKEN_NEQ", "TOKEN_GT", "TOKEN_LT",
+  "TOKEN_MOD", "TOKEN_DIV", "TOKEN_MUL", "TOKEN_ADD", "TOKEN_SUB",
+  "TOKEN_DECR", "TOKEN_INCR", "TOKEN_EXP", "TOKEN_ASSIGNMENT",
+  "TOKEN_LPAREN", "TOKEN_RPAREN", "TOKEN_OPEN_CURLY_BRACE",
   "TOKEN_CLOSE_CURLY_BRACE", "TOKEN_OPEN_SQUARE_BRACE",
   "TOKEN_CLOSE_SQUARE_BRACE", "TOKEN_COMMA", "TOKEN_TYPE_ASSIGNMENT",
   "TOKEN_LOGICAL_AND", "TOKEN_LOGICAL_OR", "TOKEN_ERROR", "$accept",
-  "program", "expr", "term", "factor", YY_NULLPTR
+  "prog", "expr", YY_NULLPTR
 };
 #endif
 
@@ -591,20 +517,19 @@ static const char *const yytname[] =
    (internal) symbol number NUM (which must be that of a token).  */
 static const yytype_uint16 yytoknum[] =
 {
-       0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
-     275,   276,   277,   278,   279,   280,   281,   282,   283,   284,
-     285,   286,   287,   288,   289,   290,   291,   292,   293,   294,
-     295,   296,   297,   298,   299,   300,   301,   302,   303,   304,
-     305,   306,   307,   308,   309,   310,   311,   312,   313,   314,
-     315,   316,   317
+       0,   256,   257,     1,     2,     3,     4,     5,     6,     7,
+       8,     9,    10,    11,    12,    13,    14,    15,    16,    17,
+      18,    19,    20,    21,    22,    23,    24,    25,    26,    27,
+      28,    29,    30,    31,    32,    33,    34,    35,    36,    37,
+      38,    39,    40,    41,    42,    43,    44,    45,    46,    47,
+      48,    49,    50,    51,    52,    53,    54
 };
 # endif
 
-#define YYPACT_NINF -31
+#define YYPACT_NINF -40
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-31)))
+  (!!((Yystate) == (-40)))
 
 #define YYTABLE_NINF -1
 
@@ -615,9 +540,7 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-       1,   -31,     1,     1,    18,     0,   -30,   -31,   -31,     5,
-     -31,     1,     1,   -31,     1,     1,   -31,    13,   -30,   -31,
-     -31
+      -4,   -39,     2,     0,     1,   -40,   -40,   -40
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -625,21 +548,19 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,    11,     0,     0,     0,     0,     5,     8,     9,     0,
-       1,     0,     0,     2,     0,     0,    10,     3,     4,     7,
-       6
+       0,     0,     0,     0,     0,     1,     2,     3
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -31,   -31,    -1,     7,    -2
+     -40,   -40,   -40
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     4,     5,     6,     7
+      -1,     2,     3
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -647,37 +568,31 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-       8,     1,     9,    11,    12,     2,     3,    13,    11,    12,
-      17,    16,    19,    20,    14,    15,    11,    12,    10,    18
+       1,     4,     5,     6,     0,     7
 };
 
-static const yytype_uint8 yycheck[] =
+static const yytype_int8 yycheck[] =
 {
-       2,     0,     3,     3,     4,     4,     5,     7,     3,     4,
-      11,     6,    14,    15,    44,    45,     3,     4,     0,    12
+       4,    40,     0,     3,    -1,     4
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     0,     4,     5,    64,    65,    66,    67,    67,    65,
-       0,     3,     4,     7,    44,    45,     6,    65,    66,    67,
-      67
+       0,     4,    58,    59,    40,     0,     3,     4
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    63,    64,    65,    65,    65,    66,    66,    66,    67,
-      67,    67
+       0,    57,    58,    59
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     2,     3,     3,     1,     3,     3,     1,     2,
-       3,     1
+       0,     2,     2,     3
 };
 
 
@@ -1354,7 +1269,7 @@ yyreduce:
   switch (yyn)
     {
       
-#line 1358 "src/parser.c" /* yacc.c:1646  */
+#line 1273 "src/parser.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1582,7 +1497,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 155 "src/parser.bison" /* yacc.c:1906  */
+#line 80 "src/parser.bison" /* yacc.c:1906  */
 
 
 /* This function is called whenever the parser fails to parse the input */

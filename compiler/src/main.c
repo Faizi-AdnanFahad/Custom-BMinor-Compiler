@@ -2,10 +2,12 @@
 #include "../include/token.h"
 #include "../include/messages.h"
 #include "../include/constants.h"
+#include "../include/print.h"
 
 extern void run_scan(const char *); 
 extern int yyparse(); 
 void run_parser(const char *);
+extern struct expr * parser_result;
 
 int main(int argc, char *argv[]) {
     const char *option = argv[1];
@@ -18,18 +20,19 @@ int main(int argc, char *argv[]) {
     }
 
     if (strcmp(option, "-scan") == 0) run_scan(filename); 
-    if (strcmp(option, "-parse") == 0) run_parser(filename); 
+    else if (strcmp(option, "-parse") == 0) run_parser(filename); 
     else {
         fprintf(stderr, "Unknown option: %s\n", option);
         exit(1);
     }
 
-    return EXIT_CODE;
+    return 0;
 }
 
 void run_scan(const char *filename) {
     // Open the file for reading
     yyin = fopen(filename, "r");
+    printf("Scanning\n");
     
     // while not EOF
     int token = -1;
@@ -38,27 +41,30 @@ void run_scan(const char *filename) {
         fprintf(stderr, ERRORMSG_SCANNER_UNEXPECTED_CHAR, yytext, yylineno);
         exit(1);
       } else {
-          if ( token == TOKEN_INTEGER || 
+          if ( token == TOKEN_INTEGER_LITERAL || 
                token == TOKEN_STRING_LITERAL || 
                token == TOKEN_CHARACTER_LITERAL || 
                token == TOKEN_IDENTIFIER) {
-           fprintf(stdout, "%s: %s, %d\n", TOKEN_LOOKUP[token], yytext, token);
+           fprintf(stdout, "%s: %s\n", TOKEN_LOOKUP[token], yytext);
+           //fprintf(stdout, "%d\n", token);
           } else {
-           fprintf(stdout, "%s, %d\n", TOKEN_LOOKUP[token], token);
+           fprintf(stdout, "%s\n", TOKEN_LOOKUP[token]);
+           //fprintf(stdout, "%d\n", token);
           }
         }
     }
 
     fclose(yyin);
-    
-    if(EXIT_CODE == 1) exit(1);
 }
 
 void run_parser(const char* filename) {
     printf("running parser\n");
     yyin = fopen(filename, "r");
 
-    if(yyparse() == 0) printf("Parse success\n");
+    if(yyparse() == 0)  {
+      printf("Parse success\n");
+      expr_print(parser_result, 0, 0);
+    }
     else printf("Parse failed\n");
 
     fclose(yyin);

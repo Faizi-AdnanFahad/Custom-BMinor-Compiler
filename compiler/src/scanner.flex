@@ -54,7 +54,7 @@ false    { return TOKEN_FALSE;    }
 for      { return TOKEN_FOR;      }
 function { return TOKEN_FUNCTION; }
 if       { return TOKEN_IF;       }
-integer  { return TOKEN_INTEGER;  }
+integer  { return TOKEN_INTEGER_LITERAL;  }
 print    { return TOKEN_PRINT;    }
 return   { return TOKEN_RETURN;   }
 string   { return TOKEN_STRING;   }
@@ -80,10 +80,10 @@ while    { return TOKEN_WHILE;    }
 "^"  { return TOKEN_EXP; }
 "="  { return TOKEN_ASSIGNMENT; }
 
-"("  { return TOKEN_OPEN_ROUND_BRACE; }
-")"  { return TOKEN_CLOSE_ROUND_BRACE; }
-"{"  { return TOKEN_OPEN_CURLY_BRACE; }
-"}"  { return TOKEN_CLOSE_CURLY_BRACE; }
+"("  { return TOKEN_LPAREN; }
+")"  { return TOKEN_RPAREN; }
+"{"  { return TOKEN_LPAREN; }
+"}"  { return TOKEN_RPAREN; }
 "["  { return TOKEN_OPEN_SQUARE_BRACE; }
 "]"  { return TOKEN_CLOSE_SQUARE_BRACE; }
 

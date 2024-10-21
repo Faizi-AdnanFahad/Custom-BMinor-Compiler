@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "print.h"
+#include "../include/print.h"
 
 void decl_print(struct decl *d)
 {

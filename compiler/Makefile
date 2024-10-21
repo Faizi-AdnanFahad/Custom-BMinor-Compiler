@@ -10,7 +10,9 @@ OBJ_FILES=$(addprefix $(DIST)/, \
 	 helper.o \
 	 constants.o \
 	 parser.o \
-	 messages.o)
+	 messages.o \
+	 expr.o \
+   print.o)
 
 INC=include
 
@@ -20,11 +22,11 @@ $(DIST)/bminor: $(OBJ_FILES)
 $(DIST)/%.o: $(SRC)/%.c $(INC)/*.h
 	gcc -I$(INC) -Wall -g -c $< -o $@
 
-$(SRC)/parser.c $(INC)/token.h: $(SRC)/parser.bison
-	bison --defines=$(INC)/token.h --output=$(SRC)/parser.c -v $(SRC)/parser.bison 
-
 $(SRC)/scanner.c: $(INC)/token.h $(SRC)/scanner.flex
 	flex -o $(SRC)/scanner.c $(SRC)/scanner.flex
+
+$(SRC)/parser.c $(INC)/token.h: $(SRC)/parser.bison
+	bison --defines=$(INC)/token.h --output=$(SRC)/parser.c -v $(SRC)/parser.bison 
 
 clean:
 	rm -f $(SRC)/scanner.c $(DIST)/*.o bminor

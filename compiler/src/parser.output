@@ -1,8 +1,5 @@
 Terminals unused in grammar
 
-   TOKEN_EOF
-   TOKEN_SEMICOLON
-   TOKEN_DIGIT
    TOKEN_CHARACTER_LITERAL
    TOKEN_INTEGER_ASSINGMENT
    TOKEN_BOOLEAN_ASSIGNMENT
@@ -21,7 +18,7 @@ Terminals unused in grammar
    TOKEN_FOR
    TOKEN_FUNCTION
    TOKEN_IF
-   TOKEN_INTEGER
+   TOKEN_INTEGER_LITERAL
    TOKEN_PRINT
    TOKEN_RETURN
    TOKEN_STRING
@@ -36,14 +33,15 @@ Terminals unused in grammar
    TOKEN_GT
    TOKEN_LT
    TOKEN_MOD
-   TOKEN_ADD
+   TOKEN_DIV
+   TOKEN_MUL
    TOKEN_SUB
    TOKEN_DECR
    TOKEN_INCR
    TOKEN_EXP
    TOKEN_ASSIGNMENT
-   TOKEN_OPEN_ROUND_BRACE
-   TOKEN_CLOSE_ROUND_BRACE
+   TOKEN_LPAREN
+   TOKEN_RPAREN
    TOKEN_OPEN_CURLY_BRACE
    TOKEN_CLOSE_CURLY_BRACE
    TOKEN_OPEN_SQUARE_BRACE
@@ -55,311 +53,139 @@ Terminals unused in grammar
    TOKEN_ERROR
 
 
-State 17 conflicts: 2 shift/reduce
-
-
 Grammar
 
-    0 $accept: program TOKEN_INTEGER_LITERAL
+    0 $accept: prog TOKEN_EOF
 
-    1 program: expr TOKEN_SEMI
+    1 prog: expr TOKEN_SEMICOLON
 
-    2 expr: expr TOKEN_PLUS expr
-    3     | expr TOKEN_MINUS term
-    4     | term
-
-    5 term: term TOKEN_MUL factor
-    6     | term TOKEN_DIV factor
-    7     | factor
-
-    8 factor: TOKEN_MINUS factor
-    9       | TOKEN_LPAREN expr TOKEN_RPAREN
-   10       | TOKEN_INTEGER_LITERAL
+    2 expr: TOKEN_DIGIT TOKEN_ADD TOKEN_DIGIT
 
 
 Terminals, with rules where they appear
 
-TOKEN_INTEGER_LITERAL (0) 0 10
+TOKEN_EOF (0) 0
+TOKEN_SEMICOLON (1) 1
+TOKEN_DIGIT (2) 2
+TOKEN_CHARACTER_LITERAL (3)
+TOKEN_INTEGER_ASSINGMENT (4)
+TOKEN_BOOLEAN_ASSIGNMENT (5)
+TOKEN_CHARACTER_ASSIGNMENT (6)
+TOKEN_STRING_ASSIGNMENT (7)
+TOKEN_STRING_LITERAL (8)
+TOKEN_INTEGER_ARRAY (9)
+TOKEN_BOOLEAN_ARRAY (10)
+TOKEN_CHARACTER_ARRAY (11)
+TOKEN_STRING_ARRAY (12)
+TOKEN_ARRAY (13)
+TOKEN_BOOLEAN (14)
+TOKEN_CHAR (15)
+TOKEN_ELSE (16)
+TOKEN_FALSE (17)
+TOKEN_FOR (18)
+TOKEN_FUNCTION (19)
+TOKEN_IF (20)
+TOKEN_INTEGER_LITERAL (21)
+TOKEN_PRINT (22)
+TOKEN_RETURN (23)
+TOKEN_STRING (24)
+TOKEN_TRUE (25)
+TOKEN_VOID (26)
+TOKEN_WHILE (27)
+TOKEN_IDENTIFIER (28)
+TOKEN_GE (29)
+TOKEN_LE (30)
+TOKEN_EQ (31)
+TOKEN_NEQ (32)
+TOKEN_GT (33)
+TOKEN_LT (34)
+TOKEN_MOD (35)
+TOKEN_DIV (36)
+TOKEN_MUL (37)
+TOKEN_ADD (38) 2
+TOKEN_SUB (39)
+TOKEN_DECR (40)
+TOKEN_INCR (41)
+TOKEN_EXP (42)
+TOKEN_ASSIGNMENT (43)
+TOKEN_LPAREN (44)
+TOKEN_RPAREN (45)
+TOKEN_OPEN_CURLY_BRACE (46)
+TOKEN_CLOSE_CURLY_BRACE (47)
+TOKEN_OPEN_SQUARE_BRACE (48)
+TOKEN_CLOSE_SQUARE_BRACE (49)
+TOKEN_COMMA (50)
+TOKEN_TYPE_ASSIGNMENT (51)
+TOKEN_LOGICAL_AND (52)
+TOKEN_LOGICAL_OR (53)
+TOKEN_ERROR (54)
 error (256)
-TOKEN_PLUS (258) 2
-TOKEN_MINUS (259) 3 8
-TOKEN_LPAREN (260) 9
-TOKEN_RPAREN (261) 9
-TOKEN_SEMI (262) 1
-TOKEN_EOF (263)
-TOKEN_SEMICOLON (264)
-TOKEN_DIGIT (265)
-TOKEN_CHARACTER_LITERAL (266)
-TOKEN_INTEGER_ASSINGMENT (267)
-TOKEN_BOOLEAN_ASSIGNMENT (268)
-TOKEN_CHARACTER_ASSIGNMENT (269)
-TOKEN_STRING_ASSIGNMENT (270)
-TOKEN_STRING_LITERAL (271)
-TOKEN_INTEGER_ARRAY (272)
-TOKEN_BOOLEAN_ARRAY (273)
-TOKEN_CHARACTER_ARRAY (274)
-TOKEN_STRING_ARRAY (275)
-TOKEN_ARRAY (276)
-TOKEN_BOOLEAN (277)
-TOKEN_CHAR (278)
-TOKEN_ELSE (279)
-TOKEN_FALSE (280)
-TOKEN_FOR (281)
-TOKEN_FUNCTION (282)
-TOKEN_IF (283)
-TOKEN_INTEGER (284)
-TOKEN_PRINT (285)
-TOKEN_RETURN (286)
-TOKEN_STRING (287)
-TOKEN_TRUE (288)
-TOKEN_VOID (289)
-TOKEN_WHILE (290)
-TOKEN_IDENTIFIER (291)
-TOKEN_GE (292)
-TOKEN_LE (293)
-TOKEN_EQ (294)
-TOKEN_NEQ (295)
-TOKEN_GT (296)
-TOKEN_LT (297)
-TOKEN_MOD (298)
-TOKEN_DIV (299) 6
-TOKEN_MUL (300) 5
-TOKEN_ADD (301)
-TOKEN_SUB (302)
-TOKEN_DECR (303)
-TOKEN_INCR (304)
-TOKEN_EXP (305)
-TOKEN_ASSIGNMENT (306)
-TOKEN_OPEN_ROUND_BRACE (307)
-TOKEN_CLOSE_ROUND_BRACE (308)
-TOKEN_OPEN_CURLY_BRACE (309)
-TOKEN_CLOSE_CURLY_BRACE (310)
-TOKEN_OPEN_SQUARE_BRACE (311)
-TOKEN_CLOSE_SQUARE_BRACE (312)
-TOKEN_COMMA (313)
-TOKEN_TYPE_ASSIGNMENT (314)
-TOKEN_LOGICAL_AND (315)
-TOKEN_LOGICAL_OR (316)
-TOKEN_ERROR (317)
 
 
 Nonterminals, with rules where they appear
 
-$accept (63)
+$accept (57)
     on left: 0
-program (64)
+prog (58)
     on left: 1, on right: 0
-expr (65)
-    on left: 2 3 4, on right: 1 2 3 9
-term (66)
-    on left: 5 6 7, on right: 3 4 5 6
-factor (67)
-    on left: 8 9 10, on right: 5 6 7 8
+expr (59)
+    on left: 2, on right: 1
 
 
 State 0
 
-    0 $accept: . program TOKEN_INTEGER_LITERAL
+    0 $accept: . prog TOKEN_EOF
 
-    TOKEN_INTEGER_LITERAL  shift, and go to state 1
-    TOKEN_MINUS            shift, and go to state 2
-    TOKEN_LPAREN           shift, and go to state 3
+    TOKEN_DIGIT  shift, and go to state 1
 
-    program  go to state 4
-    expr     go to state 5
-    term     go to state 6
-    factor   go to state 7
+    prog  go to state 2
+    expr  go to state 3
 
 
 State 1
 
-   10 factor: TOKEN_INTEGER_LITERAL .
+    2 expr: TOKEN_DIGIT . TOKEN_ADD TOKEN_DIGIT
 
-    $default  reduce using rule 10 (factor)
+    TOKEN_ADD  shift, and go to state 4
 
 
 State 2
 
-    8 factor: TOKEN_MINUS . factor
+    0 $accept: prog . TOKEN_EOF
 
-    TOKEN_INTEGER_LITERAL  shift, and go to state 1
-    TOKEN_MINUS            shift, and go to state 2
-    TOKEN_LPAREN           shift, and go to state 3
-
-    factor  go to state 8
+    TOKEN_EOF  shift, and go to state 5
 
 
 State 3
 
-    9 factor: TOKEN_LPAREN . expr TOKEN_RPAREN
+    1 prog: expr . TOKEN_SEMICOLON
 
-    TOKEN_INTEGER_LITERAL  shift, and go to state 1
-    TOKEN_MINUS            shift, and go to state 2
-    TOKEN_LPAREN           shift, and go to state 3
-
-    expr    go to state 9
-    term    go to state 6
-    factor  go to state 7
+    TOKEN_SEMICOLON  shift, and go to state 6
 
 
 State 4
 
-    0 $accept: program . TOKEN_INTEGER_LITERAL
+    2 expr: TOKEN_DIGIT TOKEN_ADD . TOKEN_DIGIT
 
-    TOKEN_INTEGER_LITERAL  shift, and go to state 10
+    TOKEN_DIGIT  shift, and go to state 7
 
 
 State 5
 
-    1 program: expr . TOKEN_SEMI
-    2 expr: expr . TOKEN_PLUS expr
-    3     | expr . TOKEN_MINUS term
-
-    TOKEN_PLUS   shift, and go to state 11
-    TOKEN_MINUS  shift, and go to state 12
-    TOKEN_SEMI   shift, and go to state 13
-
-
-State 6
-
-    4 expr: term .
-    5 term: term . TOKEN_MUL factor
-    6     | term . TOKEN_DIV factor
-
-    TOKEN_DIV  shift, and go to state 14
-    TOKEN_MUL  shift, and go to state 15
-
-    $default  reduce using rule 4 (expr)
-
-
-State 7
-
-    7 term: factor .
-
-    $default  reduce using rule 7 (term)
-
-
-State 8
-
-    8 factor: TOKEN_MINUS factor .
-
-    $default  reduce using rule 8 (factor)
-
-
-State 9
-
-    2 expr: expr . TOKEN_PLUS expr
-    3     | expr . TOKEN_MINUS term
-    9 factor: TOKEN_LPAREN expr . TOKEN_RPAREN
-
-    TOKEN_PLUS    shift, and go to state 11
-    TOKEN_MINUS   shift, and go to state 12
-    TOKEN_RPAREN  shift, and go to state 16
-
-
-State 10
-
-    0 $accept: program TOKEN_INTEGER_LITERAL .
+    0 $accept: prog TOKEN_EOF .
 
     $default  accept
 
 
-State 11
+State 6
 
-    2 expr: expr TOKEN_PLUS . expr
+    1 prog: expr TOKEN_SEMICOLON .
 
-    TOKEN_INTEGER_LITERAL  shift, and go to state 1
-    TOKEN_MINUS            shift, and go to state 2
-    TOKEN_LPAREN           shift, and go to state 3
-
-    expr    go to state 17
-    term    go to state 6
-    factor  go to state 7
+    $default  reduce using rule 1 (prog)
 
 
-State 12
+State 7
 
-    3 expr: expr TOKEN_MINUS . term
+    2 expr: TOKEN_DIGIT TOKEN_ADD TOKEN_DIGIT .
 
-    TOKEN_INTEGER_LITERAL  shift, and go to state 1
-    TOKEN_MINUS            shift, and go to state 2
-    TOKEN_LPAREN           shift, and go to state 3
-
-    term    go to state 18
-    factor  go to state 7
-
-
-State 13
-
-    1 program: expr TOKEN_SEMI .
-
-    $default  reduce using rule 1 (program)
-
-
-State 14
-
-    6 term: term TOKEN_DIV . factor
-
-    TOKEN_INTEGER_LITERAL  shift, and go to state 1
-    TOKEN_MINUS            shift, and go to state 2
-    TOKEN_LPAREN           shift, and go to state 3
-
-    factor  go to state 19
-
-
-State 15
-
-    5 term: term TOKEN_MUL . factor
-
-    TOKEN_INTEGER_LITERAL  shift, and go to state 1
-    TOKEN_MINUS            shift, and go to state 2
-    TOKEN_LPAREN           shift, and go to state 3
-
-    factor  go to state 20
-
-
-State 16
-
-    9 factor: TOKEN_LPAREN expr TOKEN_RPAREN .
-
-    $default  reduce using rule 9 (factor)
-
-
-State 17
-
-    2 expr: expr . TOKEN_PLUS expr
-    2     | expr TOKEN_PLUS expr .
-    3     | expr . TOKEN_MINUS term
-
-    TOKEN_PLUS   shift, and go to state 11
-    TOKEN_MINUS  shift, and go to state 12
-
-    TOKEN_PLUS   [reduce using rule 2 (expr)]
-    TOKEN_MINUS  [reduce using rule 2 (expr)]
-    $default     reduce using rule 2 (expr)
-
-
-State 18
-
-    3 expr: expr TOKEN_MINUS term .
-    5 term: term . TOKEN_MUL factor
-    6     | term . TOKEN_DIV factor
-
-    TOKEN_DIV  shift, and go to state 14
-    TOKEN_MUL  shift, and go to state 15
-
-    $default  reduce using rule 3 (expr)
-
-
-State 19
-
-    6 term: term TOKEN_DIV factor .
-
-    $default  reduce using rule 6 (term)
-
-
-State 20
-
-    5 term: term TOKEN_MUL factor .
-
-    $default  reduce using rule 5 (term)
+    $default  reduce using rule 2 (expr)
