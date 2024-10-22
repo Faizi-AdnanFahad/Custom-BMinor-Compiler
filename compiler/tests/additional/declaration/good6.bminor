@@ -1,0 +1,6 @@
+testName: boolean =  4 != 5;
+testName: boolean =  4 == 5;
+testName: boolean =  4 > 5;
+testName: boolean =  4 < 5;
+testName: boolean =  4 <= 5;
+testName: boolean =  4 >= 5;

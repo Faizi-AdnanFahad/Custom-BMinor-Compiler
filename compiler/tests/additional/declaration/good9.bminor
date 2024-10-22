@@ -1,0 +1,2 @@
+testName: char = 'a';
+testName: string = "a";

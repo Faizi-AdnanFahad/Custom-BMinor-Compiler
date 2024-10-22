@@ -68,41 +68,109 @@ int yyerror( char *str);
 %token TOKEN_ERROR 54
 %%
 
-/* Here is the grammar: program is the start symbol. */
-
      // The program can either be a series of declarations or an expression followed by a semicolon.
-     program : expr TOKEN_SEMICOLON
+     program : declaration_list
+          | expr TOKEN_SEMICOLON
           ;
 
-     // Top-level expression rule: allows addition, subtraction, logical OR, and comparison operators
-     expr : expr TOKEN_ADD term               // addition
-          | expr TOKEN_SUB term               // subtraction
-          | expr TOKEN_LOGICAL_OR term                // logical OR (for booleans)
-          | expr TOKEN_EQ term             // equality comparison (==)
-          | expr TOKEN_NEQ term               // inequality comparison (!=)
-          | expr TOKEN_LT term              // less-than (<)
-          | expr TOKEN_GT term           // greater-than (>)
-          | expr TOKEN_LE term            // less-than-or-equal (<=)
-          | expr TOKEN_GE term         // greater-than-or-equal (>=)
+     // Declaration List
+     declaration_list : declaration_list declaration
+                    | /* empty */
+                    ;
+
+     // Declarations (Variable, Function, and Type)
+     declaration : var_declaration
+               | function_declaration
+               | type_declaration
+               ;
+
+     // Variable Declarations
+     var_declaration : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier TOKEN_SEMICOLON
+                    |  TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier TOKEN_ASSIGNMENT expr TOKEN_SEMICOLON
+                    ;
+
+     // Type Specifiers (int, bool, char, string)
+     type_specifier : TOKEN_INTEGER_LITERAL
+                    | TOKEN_BOOLEAN
+                    | TOKEN_CHAR
+                    | TOKEN_STRING
+                    ;
+
+     // Function Declarations
+     function_declaration : type_specifier TOKEN_IDENTIFIER TOKEN_LPAREN param_list TOKEN_RPAREN compound_stmt
+                         ;
+
+     // Parameter List for Functions
+     param_list : param_list TOKEN_COMMA param
+               | param
+               | /* empty */
+               ;
+
+     // Parameters
+     param : type_specifier TOKEN_IDENTIFIER
+          ;
+
+     // Compound Statement (For function bodies or block scopes)
+     compound_stmt : TOKEN_OPEN_CURLY_BRACE local_declarations stmt_list TOKEN_CLOSE_CURLY_BRACE
+               ;
+
+     // Local Declarations within compound statements
+     local_declarations : local_declarations var_declaration
+                    | /* empty */
+                    ;
+
+     // List of statements within a block
+     stmt_list : stmt_list stmt
+               | /* empty */
+               ;
+
+     // Statements can be expression statements, compound statements, or return statements.
+     stmt : expr_stmt
+          | compound_stmt
+          | return_stmt
+          ;
+
+     // Expression Statements (an expression followed by a semicolon)
+     expr_stmt : expr TOKEN_SEMICOLON
+               | TOKEN_SEMICOLON
+               ;
+
+     // Return Statements (used in function return)
+     return_stmt : TOKEN_RETURN expr TOKEN_SEMICOLON
+               ;
+
+     // Type Declarations (optional, depending on Bminor's requirements)
+     type_declaration : /* Add specific rules for type declarations if required */
+                    ;
+
+     // Expression Grammar
+     expr : expr TOKEN_ADD term
+          | expr TOKEN_SUB term
           | term
           ;
 
-     // Term: allows multiplication, division, logical AND, and supports string and char comparisons
-     term : term TOKEN_MUL factor             // multiplication
-          | term TOKEN_DIV factor             // division
-          | term TOKEN_LOGICAL_AND factor             // logical AND (for booleans)
+     // Term Grammar (multiplication and division)
+     term : term TOKEN_MUL factor
+          | term TOKEN_DIV factor
+          | term TOKEN_GT factor
+          | term TOKEN_LT factor
+          | term TOKEN_GE factor
+          | term TOKEN_LE factor
+          | term TOKEN_NEQ factor
+          | term TOKEN_EQ factor
+          | term TOKEN_LOGICAL_AND factor
+          | term TOKEN_LOGICAL_OR factor
           | factor
           ;
 
-     // Factor: base components like literals (integer, boolean, string, char), negation, and parenthesis
-     factor : TOKEN_SUB factor                // negation
-          | TOKEN_LPAREN expr TOKEN_RPAREN  // parentheses for grouping
-          | TOKEN_DIGIT                     // integer literal
-          | TOKEN_TRUE             
+     // Factor Grammar (negation, parentheses, and digit handling)
+     factor : TOKEN_SUB factor
+          | TOKEN_LPAREN expr TOKEN_RPAREN
+          | TOKEN_DIGIT
+          | TOKEN_TRUE
           | TOKEN_FALSE
-          | TOKEN_STRING_LITERAL            // string literal ("example")
-          | TOKEN_CHARACTER_LITERAL              // char literal ('a')
-          | TOKEN_IDENTIFIER                // variable names
+          | TOKEN_STRING_LITERAL
+          | TOKEN_CHARACTER_LITERAL
           ;
 %%
 
