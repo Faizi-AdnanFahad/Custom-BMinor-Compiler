@@ -84,10 +84,22 @@ int yyerror( char *str);
                | type_declaration
                ;
 
-     // Variable Declarations
+     // Variable Declarations without an assignment
      var_declaration : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier TOKEN_SEMICOLON
-                    |  TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier TOKEN_ASSIGNMENT expr TOKEN_SEMICOLON
+                    | TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT TOKEN_ARRAY TOKEN_OPEN_SQUARE_BRACE TOKEN_DIGIT TOKEN_CLOSE_SQUARE_BRACE type_specifier TOKEN_SEMICOLON // a: array[4] integer;
+                    | var_declaration_array_with_assign
+                    | var_declaration_with_assign
                     ;
+
+     var_declaration_array_with_assign : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT TOKEN_ARRAY TOKEN_OPEN_SQUARE_BRACE TOKEN_DIGIT TOKEN_CLOSE_SQUARE_BRACE type_specifier TOKEN_ASSIGNMENT TOKEN_OPEN_CURLY_BRACE expr_list TOKEN_CLOSE_CURLY_BRACE TOKEN_SEMICOLON
+
+     expr_list : expr
+               | expr_list TOKEN_COMMA expr
+               ;
+
+     // Variable Declarations with an assignment
+     var_declaration_with_assign : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier TOKEN_ASSIGNMENT expr TOKEN_SEMICOLON
+                              ;
 
      // Type Specifiers (int, bool, char, string)
      type_specifier : TOKEN_INTEGER_LITERAL
