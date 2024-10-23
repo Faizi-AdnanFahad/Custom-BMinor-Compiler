@@ -70,9 +70,17 @@ int yyerror( char *str);
 
      // The program can either be a series of declarations or an expression followed by a semicolon.
      program : expr TOKEN_SEMICOLON
+          | declaration_list
+          | function_declaration
+          ;
+
+     declaration_list : expr_list
           | var_declaration
           |
           ;
+
+     function_declaration: TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT TOKEN_FUNCTION type_specifier TOKEN_LPAREN TOKEN_RPAREN TOKEN_ASSIGNMENT TOKEN_OPEN_CURLY_BRACE declaration_list TOKEN_CLOSE_CURLY_BRACE
+     ;
 
      // Variable Declarations without an assignment
      var_declaration : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier TOKEN_SEMICOLON
@@ -96,6 +104,7 @@ int yyerror( char *str);
                     | TOKEN_BOOLEAN
                     | TOKEN_CHAR
                     | TOKEN_STRING
+                    | TOKEN_VOID
                     ;  
 
      // Expression Grammar
