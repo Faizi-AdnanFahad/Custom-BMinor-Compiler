@@ -69,20 +69,10 @@ int yyerror( char *str);
 %%
 
      // The program can either be a series of declarations or an expression followed by a semicolon.
-     program : declaration_list
-          | expr TOKEN_SEMICOLON
+     program : expr TOKEN_SEMICOLON
+          | var_declaration
+          |
           ;
-
-     // Declaration List
-     declaration_list : declaration_list declaration
-                    | /* empty */
-                    ;
-
-     // Declarations (Variable, Function, and Type)
-     declaration : var_declaration
-               | function_declaration
-               | type_declaration
-               ;
 
      // Variable Declarations without an assignment
      var_declaration : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier TOKEN_SEMICOLON
@@ -91,69 +81,22 @@ int yyerror( char *str);
                     | var_declaration_with_assign
                     ;
 
-     var_declaration_array_with_assign : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT TOKEN_ARRAY TOKEN_OPEN_SQUARE_BRACE TOKEN_DIGIT TOKEN_CLOSE_SQUARE_BRACE type_specifier TOKEN_ASSIGNMENT TOKEN_OPEN_CURLY_BRACE expr_list TOKEN_CLOSE_CURLY_BRACE TOKEN_SEMICOLON
-
-     expr_list : expr
-               | expr_list TOKEN_COMMA expr
-               ;
+     var_declaration_array_with_assign : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT TOKEN_ARRAY TOKEN_OPEN_SQUARE_BRACE TOKEN_DIGIT TOKEN_CLOSE_SQUARE_BRACE type_specifier TOKEN_ASSIGNMENT TOKEN_OPEN_CURLY_BRACE expr_list TOKEN_CLOSE_CURLY_BRACE TOKEN_SEMICOLON // a: array[4] integer = {1, 2, 3, 4};
 
      // Variable Declarations with an assignment
      var_declaration_with_assign : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier TOKEN_ASSIGNMENT expr TOKEN_SEMICOLON
                               ;
 
+     expr_list : expr
+               | expr_list TOKEN_COMMA expr
+               ;
+                              
      // Type Specifiers (int, bool, char, string)
      type_specifier : TOKEN_INTEGER_LITERAL
                     | TOKEN_BOOLEAN
                     | TOKEN_CHAR
                     | TOKEN_STRING
-                    ;
-
-     // Function Declarations
-     function_declaration : type_specifier TOKEN_IDENTIFIER TOKEN_LPAREN param_list TOKEN_RPAREN compound_stmt
-                         ;
-
-     // Parameter List for Functions
-     param_list : param_list TOKEN_COMMA param
-               | param
-               | /* empty */
-               ;
-
-     // Parameters
-     param : type_specifier TOKEN_IDENTIFIER
-          ;
-
-     // Compound Statement (For function bodies or block scopes)
-     compound_stmt : TOKEN_OPEN_CURLY_BRACE local_declarations stmt_list TOKEN_CLOSE_CURLY_BRACE
-               ;
-
-     // Local Declarations within compound statements
-     local_declarations : local_declarations var_declaration
-                    | /* empty */
-                    ;
-
-     // List of statements within a block
-     stmt_list : stmt_list stmt
-               | /* empty */
-               ;
-
-     // Statements can be expression statements, compound statements, or return statements.
-     stmt : expr_stmt
-          | compound_stmt
-          | return_stmt
-          ;
-
-     // Expression Statements (an expression followed by a semicolon)
-     expr_stmt : expr TOKEN_SEMICOLON
-               | TOKEN_SEMICOLON
-               ;
-
-     // Return Statements (used in function return)
-     return_stmt : TOKEN_RETURN expr TOKEN_SEMICOLON
-               ;
-
-     // Type Declarations (optional, depending on Bminor's requirements)
-     type_declaration : /* Add specific rules for type declarations if required */
-                    ;
+                    ;  
 
      // Expression Grammar
      expr : expr TOKEN_ADD term
@@ -164,7 +107,11 @@ int yyerror( char *str);
      // Term Grammar (multiplication and division)
      term : term TOKEN_MUL factor
           | term TOKEN_DIV factor
-          | term TOKEN_GT factor
+          | cond_term
+          | factor
+          ;
+
+     cond_term : term TOKEN_GT factor
           | term TOKEN_LT factor
           | term TOKEN_GE factor
           | term TOKEN_LE factor
@@ -172,8 +119,6 @@ int yyerror( char *str);
           | term TOKEN_EQ factor
           | term TOKEN_LOGICAL_AND factor
           | term TOKEN_LOGICAL_OR factor
-          | factor
-          ;
 
      // Factor Grammar (negation, parentheses, and digit handling)
      factor : TOKEN_SUB factor
@@ -184,11 +129,12 @@ int yyerror( char *str);
           | TOKEN_STRING_LITERAL
           | TOKEN_CHARACTER_LITERAL
           ;
+
 %%
 
 /* This function is called whenever the parser fails to parse the input */
 int yyerror( char *s ) {
     printf("parser.bison: parse error: %s\n",s);
-    return 1;
+    exit(1);
 }
 
