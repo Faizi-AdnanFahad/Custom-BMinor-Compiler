@@ -17,7 +17,6 @@ ESCAPE (\\\a|\\\b|\\\f|\\\n|\\\r|\\\v|\\\|\\\'|\\\"|\\\?)
 IDENTIFIER ({LETTER}|_)({LETTER}|{DIGIT}|_)*
 
 INTEGER_LITERAL {DIGIT}+
-SIGNED_INTEGER_LITERAL (\+|\-)?{DIGIT}+
 BOOLEAN_LITERAL (true|false)
 CHARACTER_LITERAL '([^'\\]|\\.)'
 STRING_LITERAL \"([^"\n]*|\\["'ntr0efa\\])*\"
@@ -41,7 +40,6 @@ ARRAY_TYPE array
 <CPP_COMMENT>{
 [^\*]+ // eat comment
 "*"
-  "\n" yylineno++; 
   "*/" BEGIN(INITIAL);
   <<EOF>> EXIT_CODE=1; return TOKEN_EOF;
 }
@@ -70,10 +68,12 @@ while    { return TOKEN_WHILE;    }
 "<"  { return TOKEN_LT; }
 ">"  { return TOKEN_GT; }
 "%"  { return TOKEN_MOD; }
+
+"+"  { return TOKEN_ADD; }
+
 "--"  { return TOKEN_DECR; }
 "++"  { return TOKEN_INCR; }
 
-"+"  { return TOKEN_ADD; }
 "-"  { return TOKEN_SUB; }
 "*"  { return TOKEN_MUL; }
 "/"  { return TOKEN_DIV; }
@@ -94,7 +94,7 @@ while    { return TOKEN_WHILE;    }
 "&&"  { return TOKEN_LOGICAL_AND; }
 "||"  { return TOKEN_LOGICAL_OR; }
 
-{SIGNED_INTEGER_LITERAL} { return TOKEN_DIGIT; }
+{INTEGER_LITERAL} { return TOKEN_DIGIT; }
 
 {CHARACTER_LITERAL} {
   if (yytext[1] < 0 || yytext[1] > 255) {
