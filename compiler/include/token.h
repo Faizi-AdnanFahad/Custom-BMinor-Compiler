@@ -66,7 +66,7 @@ extern int yydebug;
     TOKEN_FOR = 18,
     TOKEN_FUNCTION = 19,
     TOKEN_IF = 20,
-    TOKEN_INTEGER_LITERAL = 21,
+    TOKEN_INTEGER = 21,
     TOKEN_PRINT = 22,
     TOKEN_RETURN = 23,
     TOKEN_STRING = 24,
@@ -99,7 +99,8 @@ extern int yydebug;
     TOKEN_TYPE_ASSIGNMENT = 51,
     TOKEN_LOGICAL_AND = 52,
     TOKEN_LOGICAL_OR = 53,
-    TOKEN_ERROR = 54
+    TOKEN_UNARY_NEGATE = 54,
+    TOKEN_ERROR = 55
   };
 #endif
 

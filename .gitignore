@@ -6,4 +6,7 @@
 scanner.c
 bminor
 *.out
+parser.c
+parser.output
+compiler/include/token.h
 

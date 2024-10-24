@@ -26,7 +26,7 @@ const char* TOKEN_LOOKUP[] = {
      "TOKEN_FOR",
      "TOKEN_FUNCTION",
      "TOKEN_IF",
-     "TOKEN_INTEGER_LITERAL",
+     "TOKEN_INTEGER",
      "TOKEN_PRINT",
      "TOKEN_RETURN", 
      "TOKEN_STRING", 
@@ -59,6 +59,7 @@ const char* TOKEN_LOOKUP[] = {
      "TOKEN_TYPE_ASSIGNMENT",
      "TOKEN_LOGICAL_AND",
      "TOKEN_LOGICAL_OR",
+     "TOKEN_UNARY_NEGATE",
      "TOKEN_ERROR",
 };
 

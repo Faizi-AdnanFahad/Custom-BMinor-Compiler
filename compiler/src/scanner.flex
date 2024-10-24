@@ -54,7 +54,7 @@ false    { return TOKEN_FALSE;    }
 for      { return TOKEN_FOR;      }
 function { return TOKEN_FUNCTION; }
 if       { return TOKEN_IF;       }
-integer  { return TOKEN_INTEGER_LITERAL;  }
+integer  { return TOKEN_INTEGER;  }
 print    { return TOKEN_PRINT;    }
 return   { return TOKEN_RETURN;   }
 string   { return TOKEN_STRING;   }
@@ -79,6 +79,8 @@ while    { return TOKEN_WHILE;    }
 "/"  { return TOKEN_DIV; }
 "^"  { return TOKEN_EXP; }
 "="  { return TOKEN_ASSIGNMENT; }
+
+"!" { return TOKEN_UNARY_NEGATE; }
 
 "("  { return TOKEN_LPAREN; }
 ")"  { return TOKEN_RPAREN; }
