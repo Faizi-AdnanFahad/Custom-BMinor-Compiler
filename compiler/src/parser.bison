@@ -9,6 +9,7 @@
 extern char *yytext     ;
 extern int yylex()      ;
 int yyerror( char *str) ;
+extern struct stmt* parser_result = 0;
 
 %}
 %token TOKEN_EOF 0 // enum index start 0
@@ -248,12 +249,12 @@ factor_list : factor_list TOKEN_COMMA factor_list
 // Factor Grammar (negation, parentheses, and digit handling)
 factor : TOKEN_SUB factor
 | TOKEN_LPAREN expr TOKEN_RPAREN
-| TOKEN_DIGIT
-| TOKEN_TRUE
-| TOKEN_FALSE
-| TOKEN_STRING_LITERAL
-| TOKEN_CHARACTER_LITERAL
-| TOKEN_IDENTIFIER
+| TOKEN_DIGIT { parser_result = expr_create_value(atoi(yytext), EXPR_INTEGER_LITERAL); }
+| TOKEN_TRUE { parser_result = expr_create_boolean_literal(atoi(yytext)); }
+| TOKEN_FALSE { parser_result = expr_create_boolean_literal(atoi(yytext)); }
+| TOKEN_STRING_LITERAL { parser_result = expr_create_string_literal(yytext); }
+| TOKEN_CHARACTER_LITERAL { parser_result = expr_create_char_literal(yytext); }
+| TOKEN_IDENTIFIER { parser_result = expr_create_name(yytext); }
 ;
 
 print : TOKEN_PRINT factor_list TOKEN_SEMICOLON
