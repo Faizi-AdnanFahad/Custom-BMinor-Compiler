@@ -12,7 +12,11 @@ OBJ_FILES=$(addprefix $(DIST)/, \
 	 parser.o \
 	 messages.o \
 	 expr.o \
-   print.o)
+	 print.o \
+	 decl.o \
+	 library.o \
+	 type.o \
+	 stmt.o)
 
 INC=include
 

@@ -1,7 +1,7 @@
 #ifndef HELPER_H
 #define HELPER_H
 
-// Some string methods.. pain in the butt
+// Some string methods
 void process_string_literal();
 void process_char_literal();
 void special_char_to_byte(char* str);
