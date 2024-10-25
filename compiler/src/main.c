@@ -6,6 +6,7 @@
 
 extern void run_scan(const char *); 
 extern int yyparse(); 
+
 void run_parser(const char *);
 void run_print(struct stmt* ast);
 
