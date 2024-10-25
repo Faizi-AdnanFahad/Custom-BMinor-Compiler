@@ -12,7 +12,7 @@ fxn2: function char (x:integer, y:char, z:boolean)=
 		return 'z';
 }
 
-fxn3: function char (x: array [] integer, y:char, z: array [] array [] boolean)=
+fxn3: function char (x: array [] integer)=
 {
 	if(y=='z')
 		return 'Z';
