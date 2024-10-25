@@ -7,7 +7,7 @@
 extern void run_scan(const char *); 
 extern int yyparse(); 
 void run_parser(const char *);
-// extern char* parser_result = "";
+void run_print(struct stmt* ast);
 
 int main(int argc, char *argv[]) {
     const char *option = argv[1];
@@ -61,16 +61,16 @@ void run_parser(const char* filename) {
     printf("running parser\n");
     yyin = fopen(filename, "r");
 
-    if(yyparse() == 0)  {
-      printf("Parse success\n");
-    //   printf("result %s\n", parser_result);
-    // printf("Parsed expression: %d %c %d\n",
-    //             parser_result->left_value,
-    //             parser_result->operator,
-    //             parser_result->right_value);
-    //   expr_print(parser_result->kind, 0, 0);
+    if(yyparse() == 0) {
+       printf("Parse success\n");
     }
-    else printf("Parse failed\n");
+
+    run_print(parser_result);
 
     fclose(yyin);
+}
+
+void run_print(struct stmt* ast) {
+  printf("run_print\n");
+  stmt_print(ast, 0, 0);
 }

@@ -29,6 +29,7 @@ void decl_print(struct decl *d)
 
 void stmt_print(struct stmt *s, int indent, int indent_current)
 {
+    //printf("%d\n", s->kind);
     if (!s)
         return;
 
@@ -99,6 +100,7 @@ void stmt_print(struct stmt *s, int indent, int indent_current)
 
 void expr_print(struct expr *e, int parent_prec, int is_array_start)
 {
+//    printf("%s", e->literal_value);
     if (!e)
         return;
     int current_prec = get_precedence(e);
