@@ -9,7 +9,7 @@
 extern char *yytext     ;
 extern int yylex()      ;
 int yyerror( char *str) ;
-extern struct stmt* parser_result = 0;
+struct stmt* parser_result = 0;
 
 %}
 %token TOKEN_EOF 0 // enum index start 0
