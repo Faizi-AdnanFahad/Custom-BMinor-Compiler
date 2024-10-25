@@ -73,5 +73,5 @@ void run_parser(const char* filename) {
 
 void run_print(struct stmt* ast) {
   printf("run_print\n");
-  stmt_print(ast, 0, 0);
+  //stmt_print(ast, 0, 0);
 }
