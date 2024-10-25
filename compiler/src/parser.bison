@@ -91,6 +91,7 @@ arg_list: arg_list TOKEN_COMMA arg_list
 ;
 
 arg : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier
+| TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT TOKEN_ARRAY TOKEN_OPEN_SQUARE_BRACE TOKEN_CLOSE_SQUARE_BRACE type_specifier
 ;
 
 // function declaration
@@ -106,7 +107,7 @@ statement : if_statement
 | function_call
 | print
 | for_statement
-| incr_statement
+| incr_statement TOKEN_SEMICOLON
 | decr_statement
 | return_statement
 | expr TOKEN_SEMICOLON
@@ -172,7 +173,7 @@ var_declaration_with_assign : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specif
 ;
 var_reassign : TOKEN_IDENTIFIER TOKEN_ASSIGNMENT expr TOKEN_SEMICOLON
 ;
-incr_statement : TOKEN_IDENTIFIER TOKEN_INCR TOKEN_SEMICOLON
+incr_statement : TOKEN_IDENTIFIER TOKEN_INCR
 ;
 decr_statement : TOKEN_IDENTIFIER TOKEN_DECR TOKEN_SEMICOLON
 ;
@@ -194,6 +195,7 @@ type_specifier : TOKEN_INTEGER
 expr : expr TOKEN_ADD term
 | expr TOKEN_SUB term
 | TOKEN_UNARY_NEGATE expr
+| incr_statement
 | term
 ;
 
