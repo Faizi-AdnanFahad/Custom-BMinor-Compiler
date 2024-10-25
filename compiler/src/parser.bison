@@ -104,6 +104,7 @@ statement : if_statement
 | var_declaration
 | function_declaration
 | var_reassign
+| arr_reassign
 | function_call
 | print
 | for_statement
@@ -169,13 +170,24 @@ var_declaration_array_2d_with_assign: TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT TOK
 var_declaration_array_with_assign : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT TOKEN_ARRAY TOKEN_OPEN_SQUARE_BRACE TOKEN_DIGIT TOKEN_CLOSE_SQUARE_BRACE type_specifier TOKEN_ASSIGNMENT TOKEN_OPEN_CURLY_BRACE expr_list TOKEN_CLOSE_CURLY_BRACE TOKEN_SEMICOLON // a: array[4] integer = {1, 2, 3, 4} ;
 
 // Variable Declarations with an assignment
-var_declaration_with_assign : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier TOKEN_ASSIGNMENT expr TOKEN_SEMICOLON
-;
-var_reassign : TOKEN_IDENTIFIER TOKEN_ASSIGNMENT expr TOKEN_SEMICOLON
+var_declaration_with_assign : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier TOKEN_ASSIGNMENT expr_or_array_index TOKEN_SEMICOLON 
 ;
 incr_statement : TOKEN_IDENTIFIER TOKEN_INCR
 ;
 decr_statement : TOKEN_IDENTIFIER TOKEN_DECR TOKEN_SEMICOLON
+;
+var_reassign : TOKEN_IDENTIFIER TOKEN_ASSIGNMENT expr TOKEN_SEMICOLON
+| TOKEN_IDENTIFIER TOKEN_ASSIGNMENT TOKEN_IDENTIFIER TOKEN_OPEN_SQUARE_BRACE TOKEN_DIGIT TOKEN_CLOSE_SQUARE_BRACE TOKEN_SEMICOLON
+;
+arr_reassign : TOKEN_IDENTIFIER TOKEN_OPEN_SQUARE_BRACE TOKEN_DIGIT TOKEN_CLOSE_SQUARE_BRACE TOKEN_ASSIGNMENT compound_expr TOKEN_SEMICOLON
+;
+
+expr_or_array_index : expr 
+| TOKEN_IDENTIFIER TOKEN_OPEN_SQUARE_BRACE TOKEN_DIGIT TOKEN_CLOSE_SQUARE_BRACE
+
+compound_expr : expr
+| TOKEN_OPEN_CURLY_BRACE expr_list TOKEN_CLOSE_CURLY_BRACE
+| expr_list_with_semicolon
 ;
 
 expr_list : expr
