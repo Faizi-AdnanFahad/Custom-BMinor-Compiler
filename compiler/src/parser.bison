@@ -91,16 +91,51 @@ var_declaration : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier TOKEN_SE
 | TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier TOKEN_ASSIGNMENT expr TOKEN_SEMICOLON
 ;
 
+// calc: function integer (param1: boolean, param2: integer) = {}
 function_declaration : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT TOKEN_FUNCTION type_specifier TOKEN_LPAREN param_list TOKEN_RPAREN TOKEN_ASSIGNMENT TOKEN_OPEN_CURLY_BRACE statement_list TOKEN_CLOSE_CURLY_BRACE
 ;
 
+// param list can be a single / multiple param
 param_list: param_list TOKEN_COMMA param_list
 | param
 |
 ;
 
+// (param1: boolean) or (param1: boolean, param2: integer, ...) 
 param : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier
 | TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT TOKEN_ARRAY TOKEN_OPEN_SQUARE_BRACE TOKEN_CLOSE_SQUARE_BRACE type_specifier
+;
+
+// statement list can be a single / multiple statement
+statement_list : statement_list statement
+| statement
+|
+;
+
+// statment can be either a variable declaration, if statement, block statement
+statement : var_declaration
+| if_statement_list
+| block_statment
+;
+
+// if statment can be a single / multiple nested if statments
+if_statement_list : if_statement_list if_statement
+| if_statement
+;
+
+// i.g, if {condition} {statments}
+if_statement : TOKEN_IF TOKEN_LPAREN cond_expr TOKEN_RPAREN statement_list else_statement
+| TOKEN_IF TOKEN_LPAREN cond_expr TOKEN_RPAREN block_statment else_statement
+;
+
+// optional else-statments that is else followed by either statment list or a block statment
+else_statement : TOKEN_ELSE statement_list
+| TOKEN_ELSE block_statment
+|
+;
+
+// indicates a block of statements inside curly braces
+block_statment : TOKEN_OPEN_CURLY_BRACE statement_list TOKEN_CLOSE_CURLY_BRACE
 ;
 
 // Type Specifiers (int, bool, char, string)
@@ -110,28 +145,29 @@ type_specifier : TOKEN_INTEGER
 | TOKEN_STRING
 ;
 
+// captures only conditional expressions. Used to seperate regular expression with conditiaonl ones
+cond_expr : TOKEN_UNARY_NEGATE cond_expr
+| expr TOKEN_GT factor
+| expr TOKEN_LT factor
+| expr TOKEN_GE factor
+| expr TOKEN_LE factor
+| expr TOKEN_NEQ factor
+| expr TOKEN_EQ factor
+| expr TOKEN_LOGICAL_AND factor
+| expr TOKEN_LOGICAL_OR factor
+
 // Expression Grammar
 expr : expr TOKEN_ADD term
 | expr TOKEN_SUB term
-| TOKEN_UNARY_NEGATE expr
+| cond_expr
 | term
 ;
 
 term : term TOKEN_EXP TOKEN_DIGIT
 | term TOKEN_MUL factor
 | term TOKEN_DIV factor
-| cond_term
 | factor
 ;
-
-cond_term : term TOKEN_GT factor
-| term TOKEN_LT factor
-| term TOKEN_GE factor
-| term TOKEN_LE factor
-| term TOKEN_NEQ factor
-| term TOKEN_EQ factor
-| term TOKEN_LOGICAL_AND factor
-| term TOKEN_LOGICAL_OR factor
 
 factor : TOKEN_SUB factor
 | TOKEN_LPAREN expr TOKEN_RPAREN
