@@ -6,10 +6,11 @@
 #include "../include/expr.h"
 #include "../include/print.h"
 
-extern char *yytext     ;
-extern int yylex()      ;
-int yyerror( char *str) ;
-struct stmt* parser_result = 0;
+extern char *yytext            ;
+extern int yylex()             ;
+int yyerror( char *str)        ;
+struct stmt* parser_result = 0 ;
+#define YYSTYPE struct expr *
 
 %}
 %token TOKEN_EOF 0 // enum index start 0
@@ -70,143 +71,27 @@ struct stmt* parser_result = 0;
 %token TOKEN_ERROR 55
 %%
 
-// The program can either be a series of declarations or an expression followed by a semicolon.
-program : statement_list
+// The program is a list of declaration
+program : declaration_list
 ;
 
-statement_list : statement_list statement
-| statement
+// declaration list can be a single / multiple declaration
+declaration_list : declaration_list declaration
+| declaration
 |
 ;
 
-// declaration_list : declaration_list var_declaration { printf("VAR DECLARATION 1\n"); }
-// | var_declaration
-//                                                                                        ;
-
-function_call: TOKEN_IDENTIFIER TOKEN_LPAREN arg_list TOKEN_RPAREN TOKEN_SEMICOLON
-;
-
-arg_list: arg_list TOKEN_COMMA arg_list
-| arg
-|
-;
-
-arg : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier
-| TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT TOKEN_ARRAY TOKEN_OPEN_SQUARE_BRACE TOKEN_CLOSE_SQUARE_BRACE type_specifier
-;
-
-// function declaration
-function_declaration: TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT TOKEN_FUNCTION type_specifier TOKEN_LPAREN arg_list TOKEN_RPAREN TOKEN_ASSIGNMENT TOKEN_OPEN_CURLY_BRACE statement_list TOKEN_CLOSE_CURLY_BRACE
-| TOKEN_IDENTIFIER TOKEN_LPAREN expr_list TOKEN_RPAREN TOKEN_SEMICOLON
-;
-
-statement : if_statement
-| if_else_statement
-| block_statement
+// declaration is either a Variable declaration or a function declaration
+declaration : function_declaration
 | var_declaration
-| function_declaration
-| var_reassign
-| arr_reassign
-| function_call
-| print
-| for_statement
-| incr_statement TOKEN_SEMICOLON
-| decr_statement
-| return_statement
-| expr TOKEN_SEMICOLON
 ;
 
-return_statement : TOKEN_RETURN expr TOKEN_SEMICOLON
-| TOKEN_RETURN TOKEN_SEMICOLON
-;
-
-if_statement : TOKEN_IF TOKEN_LPAREN expr TOKEN_RPAREN TOKEN_OPEN_CURLY_BRACE statement_list TOKEN_CLOSE_CURLY_BRACE
-| TOKEN_IF TOKEN_LPAREN expr TOKEN_RPAREN statement_list
-;
-
-if_else_statement : if_statement TOKEN_ELSE block_statement
-| if_statement TOKEN_ELSE statement_list
-| if_statement else_if_list
-| if_statement else_if_list TOKEN_ELSE block_statement
-| if_statement else_if_list TOKEN_ELSE statement_list
-;
-
-else_if_list : else_if_list else_if
-| else_if
-;
-
-else_if : TOKEN_ELSE TOKEN_IF block_statement
-| TOKEN_ELSE TOKEN_IF statement_list
-;
-
-block_statement : TOKEN_OPEN_CURLY_BRACE statement_list TOKEN_CLOSE_CURLY_BRACE
-;
-
-for_statement : TOKEN_FOR TOKEN_LPAREN TOKEN_SEMICOLON TOKEN_SEMICOLON TOKEN_RPAREN TOKEN_OPEN_CURLY_BRACE statement_list TOKEN_CLOSE_CURLY_BRACE
-| TOKEN_FOR TOKEN_LPAREN TOKEN_SEMICOLON TOKEN_SEMICOLON TOKEN_RPAREN statement_list
-| TOKEN_FOR TOKEN_LPAREN for_arg_list TOKEN_RPAREN TOKEN_OPEN_CURLY_BRACE statement_list TOKEN_CLOSE_CURLY_BRACE
-| TOKEN_FOR TOKEN_LPAREN for_arg_list TOKEN_RPAREN statement_list
-;
-for_arg_list : for_arg expr TOKEN_SEMICOLON for_arg
-| for_arg expr TOKEN_SEMICOLON TOKEN_IDENTIFIER TOKEN_INCR
-| for_arg expr TOKEN_SEMICOLON TOKEN_IDENTIFIER TOKEN_DECR
-;
-
-for_arg : TOKEN_IDENTIFIER TOKEN_ASSIGNMENT factor TOKEN_SEMICOLON
-;
-
-// Variable Declarations without an assignment
+// Variable declaration can be either initialized or uninitialized
 var_declaration : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier TOKEN_SEMICOLON
-| TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT TOKEN_ARRAY TOKEN_OPEN_SQUARE_BRACE TOKEN_DIGIT TOKEN_CLOSE_SQUARE_BRACE type_specifier TOKEN_SEMICOLON // a: array[4] integer ;
-| var_declaration_array_with_assign
-| var_declaration_with_assign
-| var_declaration_array_2d
+| TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier TOKEN_ASSIGNMENT expr TOKEN_SEMICOLON
 ;
 
-var_declaration_array_2d : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT TOKEN_ARRAY TOKEN_OPEN_SQUARE_BRACE TOKEN_DIGIT TOKEN_CLOSE_SQUARE_BRACE TOKEN_ARRAY TOKEN_OPEN_SQUARE_BRACE TOKEN_DIGIT TOKEN_CLOSE_SQUARE_BRACE type_specifier TOKEN_SEMICOLON
-| var_declaration_array_2d_with_assign
-;
-
-var_declaration_array_2d_with_assign: TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT TOKEN_ARRAY TOKEN_OPEN_SQUARE_BRACE TOKEN_DIGIT TOKEN_CLOSE_SQUARE_BRACE TOKEN_ARRAY TOKEN_OPEN_SQUARE_BRACE TOKEN_DIGIT TOKEN_CLOSE_SQUARE_BRACE type_specifier TOKEN_ASSIGNMENT TOKEN_OPEN_CURLY_BRACE expr_list_with_semicolon TOKEN_CLOSE_CURLY_BRACE TOKEN_SEMICOLON
-|TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT TOKEN_ARRAY TOKEN_OPEN_SQUARE_BRACE TOKEN_DIGIT TOKEN_CLOSE_SQUARE_BRACE TOKEN_ARRAY TOKEN_OPEN_SQUARE_BRACE TOKEN_DIGIT TOKEN_CLOSE_SQUARE_BRACE type_specifier TOKEN_ASSIGNMENT TOKEN_OPEN_CURLY_BRACE expr_list TOKEN_CLOSE_CURLY_BRACE TOKEN_SEMICOLON                                                     ;
-
-var_declaration_array_with_assign : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT TOKEN_ARRAY TOKEN_OPEN_SQUARE_BRACE TOKEN_DIGIT TOKEN_CLOSE_SQUARE_BRACE type_specifier TOKEN_ASSIGNMENT TOKEN_OPEN_CURLY_BRACE expr_list TOKEN_CLOSE_CURLY_BRACE TOKEN_SEMICOLON // a: array[4] integer = {1, 2, 3, 4} ;
-
-// Variable Declarations with an assignment
-var_declaration_with_assign : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier TOKEN_ASSIGNMENT expr_or_array_index TOKEN_SEMICOLON
-;
-incr_statement : TOKEN_IDENTIFIER TOKEN_INCR
-;
-decr_statement : TOKEN_IDENTIFIER TOKEN_DECR TOKEN_SEMICOLON
-;
-var_reassign : TOKEN_IDENTIFIER TOKEN_ASSIGNMENT expr TOKEN_SEMICOLON
-| TOKEN_IDENTIFIER TOKEN_ASSIGNMENT TOKEN_IDENTIFIER TOKEN_OPEN_SQUARE_BRACE TOKEN_DIGIT TOKEN_CLOSE_SQUARE_BRACE TOKEN_SEMICOLON
-| var_reassign_2d
-;
-var_reassign_2d : TOKEN_IDENTIFIER TOKEN_ASSIGNMENT TOKEN_IDENTIFIER TOKEN_OPEN_SQUARE_BRACE TOKEN_DIGIT TOKEN_CLOSE_SQUARE_BRACE TOKEN_OPEN_SQUARE_BRACE TOKEN_DIGIT TOKEN_CLOSE_SQUARE_BRACE TOKEN_SEMICOLON
-;
-arr_reassign : TOKEN_IDENTIFIER TOKEN_OPEN_SQUARE_BRACE expr TOKEN_CLOSE_SQUARE_BRACE TOKEN_ASSIGNMENT compound_expr TOKEN_SEMICOLON
-| arr_reassign_2d
-;
-arr_reassign_2d : TOKEN_IDENTIFIER TOKEN_OPEN_SQUARE_BRACE expr TOKEN_CLOSE_SQUARE_BRACE TOKEN_OPEN_SQUARE_BRACE expr TOKEN_CLOSE_SQUARE_BRACE TOKEN_ASSIGNMENT compound_expr TOKEN_SEMICOLON
-;
-
-expr_or_array_index : expr
-| TOKEN_IDENTIFIER TOKEN_OPEN_SQUARE_BRACE TOKEN_DIGIT TOKEN_CLOSE_SQUARE_BRACE
-
-compound_expr : expr
-| TOKEN_OPEN_CURLY_BRACE expr_list TOKEN_CLOSE_CURLY_BRACE
-| expr_list_with_semicolon
-;
-
-expr_list : expr
-| expr_list TOKEN_COMMA expr
-|
-;
-
-expr_list_with_semicolon : TOKEN_OPEN_CURLY_BRACE expr_list TOKEN_CLOSE_CURLY_BRACE
-| expr_list_with_semicolon TOKEN_COMMA expr_list_with_semicolon
-|
+function_declaration :
 ;
 
 // Type Specifiers (int, bool, char, string)
@@ -214,18 +99,15 @@ type_specifier : TOKEN_INTEGER
 | TOKEN_BOOLEAN
 | TOKEN_CHAR
 | TOKEN_STRING
-| TOKEN_VOID
 ;
 
 // Expression Grammar
 expr : expr TOKEN_ADD term
 | expr TOKEN_SUB term
 | TOKEN_UNARY_NEGATE expr
-| incr_statement
 | term
 ;
 
-// Term Grammar (multiplication and division)
 term : term TOKEN_EXP TOKEN_DIGIT
 | term TOKEN_MUL factor
 | term TOKEN_DIV factor
@@ -242,24 +124,13 @@ cond_term : term TOKEN_GT factor
 | term TOKEN_LOGICAL_AND factor
 | term TOKEN_LOGICAL_OR factor
 
-factor_list : factor_list TOKEN_COMMA factor_list
-| factor
-;
-
-// Factor Grammar (negation, parentheses, and digit handling)
 factor : TOKEN_SUB factor
 | TOKEN_LPAREN expr TOKEN_RPAREN
-| TOKEN_DIGIT { parser_result = expr_create_value(atoi(yytext), EXPR_INTEGER_LITERAL); }
-| TOKEN_TRUE { parser_result = expr_create_boolean_literal(atoi(yytext)); }
-| TOKEN_FALSE { parser_result = expr_create_boolean_literal(atoi(yytext)); }
-| TOKEN_STRING_LITERAL { parser_result = expr_create_string_literal(yytext); }
-| TOKEN_CHARACTER_LITERAL { parser_result = expr_create_char_literal(yytext); }
-| TOKEN_IDENTIFIER { parser_result = expr_create_name(yytext); }
-;
-
-print : TOKEN_PRINT factor_list TOKEN_SEMICOLON
-| TOKEN_PRINT TOKEN_SEMICOLON
-;
+| TOKEN_DIGIT
+| TOKEN_TRUE
+| TOKEN_FALSE
+| TOKEN_STRING_LITERAL
+| TOKEN_CHARACTER_LITERAL
 
 %%
 
