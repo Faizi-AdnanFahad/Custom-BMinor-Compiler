@@ -116,10 +116,14 @@ statement_list : statement_list statement
 statement : var_declaration
 | reassignment
 | if_statement_list
+| for_statement
+| print_statement
 | block_statment
 ;
 
 reassignment : TOKEN_IDENTIFIER TOKEN_ASSIGNMENT expr TOKEN_SEMICOLON
+| TOKEN_IDENTIFIER TOKEN_INCR TOKEN_SEMICOLON
+| TOKEN_IDENTIFIER TOKEN_DECR TOKEN_SEMICOLON
 ;
 
 // if statment can be a single / multiple nested if statments
@@ -138,8 +142,35 @@ else_statement : TOKEN_ELSE statement_list
 |
 ;
 
+for_statement : TOKEN_FOR TOKEN_LPAREN inner_expr TOKEN_SEMICOLON mid_epr TOKEN_SEMICOLON next_expr TOKEN_RPAREN
+| TOKEN_FOR TOKEN_LPAREN inner_expr TOKEN_SEMICOLON mid_epr TOKEN_SEMICOLON next_expr TOKEN_RPAREN block_statment
+;
+
+inner_expr : TOKEN_IDENTIFIER TOKEN_ASSIGNMENT expr
+|
+;
+
+mid_epr : cond_expr
+|
+;
+
+next_expr : expr
+| TOKEN_IDENTIFIER TOKEN_INCR
+| TOKEN_IDENTIFIER TOKEN_DECR
+|
+;
+
+
 // indicates a block of statements inside curly braces
 block_statment : TOKEN_OPEN_CURLY_BRACE statement_list TOKEN_CLOSE_CURLY_BRACE
+;
+
+print_statement : TOKEN_PRINT expr_list TOKEN_SEMICOLON
+;
+
+expr_list : expr_list TOKEN_COMMA expr_list
+| factor
+| 
 ;
 
 // Type Specifiers (int, bool, char, string)
