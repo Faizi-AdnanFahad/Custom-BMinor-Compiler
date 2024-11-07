@@ -114,8 +114,12 @@ statement_list : statement_list statement
 
 // statment can be either a variable declaration, if statement, block statement
 statement : var_declaration
+| reassignment
 | if_statement_list
 | block_statment
+;
+
+reassignment : TOKEN_IDENTIFIER TOKEN_ASSIGNMENT expr TOKEN_SEMICOLON
 ;
 
 // if statment can be a single / multiple nested if statments
@@ -143,18 +147,19 @@ type_specifier : TOKEN_INTEGER
 | TOKEN_BOOLEAN
 | TOKEN_CHAR
 | TOKEN_STRING
+| TOKEN_VOID
 ;
 
 // captures only conditional expressions. Used to seperate regular expression with conditiaonl ones
-cond_expr : TOKEN_UNARY_NEGATE cond_expr
-| expr TOKEN_GT factor
-| expr TOKEN_LT factor
-| expr TOKEN_GE factor
-| expr TOKEN_LE factor
-| expr TOKEN_NEQ factor
-| expr TOKEN_EQ factor
-| expr TOKEN_LOGICAL_AND factor
-| expr TOKEN_LOGICAL_OR factor
+cond_expr : TOKEN_UNARY_NEGATE expr
+| expr TOKEN_GT expr
+| expr TOKEN_LT expr
+| expr TOKEN_GE expr
+| expr TOKEN_LE expr
+| expr TOKEN_NEQ expr
+| expr TOKEN_EQ expr
+| expr TOKEN_LOGICAL_AND expr
+| expr TOKEN_LOGICAL_OR expr
 
 // Expression Grammar
 expr : expr TOKEN_ADD term
@@ -176,6 +181,7 @@ factor : TOKEN_SUB factor
 | TOKEN_FALSE
 | TOKEN_STRING_LITERAL
 | TOKEN_CHARACTER_LITERAL
+| TOKEN_IDENTIFIER
 
 %%
 
