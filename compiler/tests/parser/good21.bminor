@@ -1,5 +1,0 @@
-a: array [5] integer;
-a: array [5] integer = {1, 2, 3, 4, 5};
-a: array [5] integer = {1};
-
-testIdentifier: array [3] boolean = {true, false, true};

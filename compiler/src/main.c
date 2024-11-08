@@ -6,7 +6,6 @@
 
 extern void run_scan(const char *); 
 extern int yyparse(); 
-
 void run_parser(const char *);
 void run_print(struct stmt* ast);
 
@@ -66,12 +65,12 @@ void run_parser(const char* filename) {
        printf("Parse success\n");
     }
 
-    run_print(parser_result);
+    // run_print(parser_result);
 
     fclose(yyin);
 }
 
 void run_print(struct stmt* ast) {
   printf("run_print\n");
-  //stmt_print(ast, 0, 0);
+  stmt_print(ast, 0, 0);
 }
