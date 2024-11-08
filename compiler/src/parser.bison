@@ -87,10 +87,11 @@ declaration : function_declaration
 ;
 
 // Variable declaration can be either initialized or uninitialized
-var_declaration : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier TOKEN_SEMICOLON
-| TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier TOKEN_ASSIGNMENT expr TOKEN_SEMICOLON
+var_declaration : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier TOKEN_SEMICOLON // x: boolean;
+| TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier TOKEN_ASSIGNMENT expr TOKEN_SEMICOLON // x: boolean = true && false;
 | TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT neseted_array_list type_specifier TOKEN_SEMICOLON // x: array[5] boolean;
 | TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT neseted_array_list type_specifier TOKEN_ASSIGNMENT TOKEN_OPEN_CURLY_BRACE expr_list TOKEN_CLOSE_CURLY_BRACE TOKEN_SEMICOLON
+| TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier TOKEN_ASSIGNMENT TOKEN_IDENTIFIER nested_sq_bracket_list TOKEN_SEMICOLON // x: char = str[1][4]... ;
 ;
 
 // calc: function integer (param1: boolean, param2: integer) = {}
@@ -117,6 +118,14 @@ neseted_array : TOKEN_ARRAY TOKEN_OPEN_SQUARE_BRACE TOKEN_CLOSE_SQUARE_BRACE
 | TOKEN_ARRAY TOKEN_OPEN_SQUARE_BRACE TOKEN_DIGIT TOKEN_CLOSE_SQUARE_BRACE
 ;
 
+// [3][3+4][2/23+4^4]...
+nested_sq_bracket_list : nested_sq_bracket_list nested_array_reassign
+| nested_array_reassign
+;
+
+nested_array_reassign : TOKEN_OPEN_SQUARE_BRACE expr TOKEN_CLOSE_SQUARE_BRACE
+;
+
 
 // statement list can be a single / multiple statement
 statement_list : statement_list statement
@@ -134,9 +143,12 @@ statement : var_declaration
 | return_statement
 ;
 
-reassignment : TOKEN_IDENTIFIER TOKEN_ASSIGNMENT expr TOKEN_SEMICOLON
-| TOKEN_IDENTIFIER TOKEN_INCR TOKEN_SEMICOLON
-| TOKEN_IDENTIFIER TOKEN_DECR TOKEN_SEMICOLON
+reassignment : TOKEN_IDENTIFIER TOKEN_ASSIGNMENT expr TOKEN_SEMICOLON // x = 3 + 4;
+| TOKEN_IDENTIFIER TOKEN_INCR TOKEN_SEMICOLON // x++
+| TOKEN_IDENTIFIER TOKEN_DECR TOKEN_SEMICOLON // x--
+| TOKEN_IDENTIFIER nested_sq_bracket_list TOKEN_ASSIGNMENT expr TOKEN_SEMICOLON // x[3][4][3]... = 3;
+| TOKEN_IDENTIFIER TOKEN_ASSIGNMENT TOKEN_IDENTIFIER nested_sq_bracket_list TOKEN_SEMICOLON // x = arr[3][4]...
+| TOKEN_IDENTIFIER nested_sq_bracket_list TOKEN_ASSIGNMENT TOKEN_IDENTIFIER nested_sq_bracket_list TOKEN_SEMICOLON
 ;
 
 // if statment can be a single / multiple nested if statments
