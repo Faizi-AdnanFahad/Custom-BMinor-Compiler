@@ -1,5 +1,5 @@
 // test comparotors and boolean logic
-if (a || b)
+if (a | b)
 {
 	print " a || b is true";
 }
