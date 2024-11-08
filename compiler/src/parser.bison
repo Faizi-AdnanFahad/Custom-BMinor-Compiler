@@ -89,6 +89,8 @@ declaration : function_declaration
 // Variable declaration can be either initialized or uninitialized
 var_declaration : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier TOKEN_SEMICOLON
 | TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier TOKEN_ASSIGNMENT expr TOKEN_SEMICOLON
+| TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT neseted_array_list type_specifier TOKEN_SEMICOLON // x: array[5] boolean;
+| TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT neseted_array_list type_specifier TOKEN_ASSIGNMENT TOKEN_OPEN_CURLY_BRACE expr_list TOKEN_CLOSE_CURLY_BRACE TOKEN_SEMICOLON
 ;
 
 // calc: function integer (param1: boolean, param2: integer) = {}
@@ -103,8 +105,18 @@ param_list: param_list TOKEN_COMMA param_list
 
 // (param1: boolean) or (param1: boolean, param2: integer, ...) 
 param : TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT type_specifier
-| TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT TOKEN_ARRAY TOKEN_OPEN_SQUARE_BRACE TOKEN_CLOSE_SQUARE_BRACE type_specifier
+| TOKEN_IDENTIFIER TOKEN_TYPE_ASSIGNMENT neseted_array_list type_specifier
 ;
+
+// a: array[] array[] ... OR a: array[3] array[2] ...
+neseted_array_list : neseted_array_list neseted_array
+| neseted_array
+;
+
+neseted_array : TOKEN_ARRAY TOKEN_OPEN_SQUARE_BRACE TOKEN_CLOSE_SQUARE_BRACE
+| TOKEN_ARRAY TOKEN_OPEN_SQUARE_BRACE TOKEN_DIGIT TOKEN_CLOSE_SQUARE_BRACE
+;
+
 
 // statement list can be a single / multiple statement
 statement_list : statement_list statement
@@ -117,8 +129,9 @@ statement : var_declaration
 | reassignment
 | if_statement_list
 | for_statement
-| print_statement
 | block_statment
+| print_statement
+| return_statement
 ;
 
 reassignment : TOKEN_IDENTIFIER TOKEN_ASSIGNMENT expr TOKEN_SEMICOLON
@@ -166,6 +179,11 @@ block_statment : TOKEN_OPEN_CURLY_BRACE statement_list TOKEN_CLOSE_CURLY_BRACE
 ;
 
 print_statement : TOKEN_PRINT expr_list TOKEN_SEMICOLON
+;
+
+return_statement : TOKEN_RETURN expr TOKEN_SEMICOLON
+| TOKEN_RETURN TOKEN_IDENTIFIER TOKEN_INCR TOKEN_SEMICOLON
+| TOKEN_RETURN TOKEN_IDENTIFIER TOKEN_DECR TOKEN_SEMICOLON
 ;
 
 expr_list : expr_list TOKEN_COMMA expr_list
