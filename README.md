@@ -1,4 +1,4 @@
-# EECS 4302
+# Custom Compiler
 A full compiler from scratch for a C-like language (B-minor), translating source code to runnable assembly. This included developing a scanner for tokenization, a custom parser to generate an Abstract Syntax Tree (AST), semantic analysis routines, intermediate representation (IR) generation, optimization passes, and a back-end code generator for assembly output.
 
 ## Setup
